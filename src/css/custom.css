@@ -10,13 +10,16 @@
   --ifm-color-primary-light: #4649da;
   --ifm-color-primary-lighter: #5255dd;
   --ifm-color-primary-lightest: #7274e4;
-  --ifm-code-font-size: 90%;
+  --ifm-code-font-size: 95%;
+  --ifm-container-width-xl: 1400px;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
   --hb-ink: #0b1220;
   --hb-focus: #ffb020;
+  --hb-focus-ring: #b45309;
   --hb-surface: #ffffff;
   --hb-bg: #f5f7fa;
-  --hb-border: #e2e7ef;
+  --hb-border: #7c8aa0;
   --hb-muted: #5b6472;
   --hb-cat: #3538cd;
   --hb-cat-bg: #eef0fd;
@@ -24,29 +27,55 @@
   --hb-comp-bg: #e6f5f3;
   --hb-red: #b42318;
   --hb-red-bg: #fef0ef;
-  --hb-yellow: #93650a;
+  --hb-yellow: #7a4e00;
   --hb-yellow-bg: #fef6e7;
   --hb-green: #166534;
   --hb-green-bg: #eafbf0;
+  --hb-role: #3f4657;
+  --hb-role-bg: #f1f3f7;
+  --hb-wcag: #1d4ed8;
+  --hb-wcag-bg: #eff6ff;
+  --hb-wcag-border: #bfdbfe;
 }
 
 [data-theme='dark'] {
-  --ifm-color-primary: #7274e4;
-  --ifm-color-primary-dark: #5255dd;
-  --ifm-color-primary-darker: #4649da;
+  --ifm-color-primary: #8688e8;
+  --ifm-color-primary-dark: #7274e4;
+  --ifm-color-primary-darker: #5255dd;
   --ifm-color-primary-darkest: #292cad;
-  --ifm-color-primary-light: #8688e8;
-  --ifm-color-primary-lighter: #9294eb;
+  --ifm-color-primary-light: #9294eb;
+  --ifm-color-primary-lighter: #a5a7ef;
   --ifm-color-primary-lightest: #b4b5f2;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+
+  --hb-focus-ring: #fbbf24;
   --hb-surface: #1e2030;
   --hb-bg: #13141f;
-  --hb-border: #2d3148;
+  --hb-border: #616a9c;
   --hb-muted: #8892a4;
+  --hb-cat: #9294eb;
+  --hb-cat-bg: #2a2d5c;
+  --hb-comp: #2dd4bf;
+  --hb-comp-bg: #123a36;
+  --hb-red: #f87171;
+  --hb-red-bg: #451a1a;
+  --hb-yellow: #fbbf24;
+  --hb-yellow-bg: #3f2d09;
+  --hb-green: #4ade80;
+  --hb-green-bg: #123821;
+  --hb-role: #c7ccda;
+  --hb-role-bg: #2a2e42;
+  --hb-wcag: #93c5fd;
+  --hb-wcag-bg: #1e3a5f;
+  --hb-wcag-border: #2563eb;
+}
+
+html {
+  font-size: 106%;
 }
 
 *:focus-visible {
-  outline: 3px solid var(--hb-focus) !important;
+  outline: 3px solid var(--hb-focus-ring) !important;
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -54,6 +83,10 @@
 .navbar {
   border-bottom: 1px solid var(--hb-border);
   box-shadow: none;
+}
+
+.markdown {
+  max-width: 75ch;
 }
 
 code, pre, kbd {

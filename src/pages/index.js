@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import Layout from '@theme/Layout';
 import DATA from '@site/src/data/data.json';
 import styles from './index.module.css';
@@ -37,6 +37,8 @@ function norm(t) {
 function Card({item, open, onToggle}) {
   const hId = item.id + '-h';
   const bId = item.id + '-b';
+  const sId = item.id + '-s';
+  const mId = item.id + '-m';
   return (
     <article className={styles.card + (open ? ' ' + styles.cardOpen : '')}>
       <h2 id={hId} className={styles.cardHWrap}>
@@ -45,13 +47,12 @@ function Card({item, open, onToggle}) {
           className={styles.cardBtn}
           aria-expanded={open}
           aria-controls={bId}
+          aria-labelledby={sId}
+          aria-describedby={mId}
           onClick={() => onToggle(item.id)}>
           <span className={styles.cardLeft}>
-            <span className={styles.sintoma}>{item.sintoma}</span>
-            {item.descricao_curta && (
-              <span className={styles.desc}>{item.descricao_curta}</span>
-            )}
-            <span className={styles.pills}>
+            <span className={styles.sintoma} id={sId}>{item.sintoma}</span>
+            <span className={styles.pills} id={mId}>
               <span className={styles.pill + ' ' + styles.pillCat}>
                 {CAT[item.categoria] || item.categoria}
               </span>
@@ -80,12 +81,10 @@ function Card({item, open, onToggle}) {
           </span>
         </button>
       </h2>
-      <div
-        id={bId}
-        role="region"
-        aria-labelledby={hId}
-        hidden={!open}
-        className={styles.body}>
+      <div id={bId} hidden={!open} className={styles.body}>
+        {item.descricao_curta && (
+          <p className={styles.bodyIntro}>{item.descricao_curta}</p>
+        )}
         <div className={styles.boxes}>
           <div className={styles.box}>
             <h3 className={styles.boxH}>Causa provável</h3>
@@ -122,6 +121,7 @@ export default function Home() {
   const [cat, setCat] = useState('todos');
   const [comp, setComp] = useState('todos');
   const [openIds, setOpenIds] = useState(() => new Set());
+  const searchRef = useRef(null);
 
   const toggle = (id) => setOpenIds((p) => {
     const n = new Set(p);
@@ -151,12 +151,25 @@ export default function Home() {
       : list.length + ' de ' + DATA.length + ' sintomas' +
         (list.length === 0 ? ' — Nenhum resultado. Tente outro termo ou remova um filtro.' : '');
 
+  // Contagem anunciada separadamente da visível, com debounce, para nao
+  // interromper o leitor de tela a cada tecla digitada na busca.
+  const [announceMsg, setAnnounceMsg] = useState(countMsg);
+  useEffect(() => {
+    const t = setTimeout(() => setAnnounceMsg(countMsg), 500);
+    return () => clearTimeout(t);
+  }, [countMsg]);
+
+  const clearFilters = () => {
+    setQ('');
+    setCat('todos');
+    setComp('todos');
+    searchRef.current?.focus();
+  };
+
   return (
     <Layout
-      title="Handbook A11Y — Sintoma, causa, solução"
+      title="Sintoma, causa, solução"
       description="Encontre a causa e a correção para sintomas de acessibilidade, facetado por categoria e componente de UI.">
-
-      <a className={styles.skip} href="#main-content">Pular para o conteúdo</a>
 
       <header className={styles.header}>
         <div className={styles.hInner}>
@@ -193,18 +206,19 @@ export default function Home() {
 
       <main id="main-content" className={styles.main}>
 
+        <h2 className={styles.srOnly}>Filtros de busca</h2>
         <section aria-label="Filtros de busca" className={styles.finder}>
           <div className={styles.row}>
             <div className={styles.field}>
               <label htmlFor="q" className={styles.lbl}>Buscar sintoma</label>
               <input
                 id="q"
+                ref={searchRef}
                 type="search"
                 className={styles.inp}
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
                 placeholder="Ex.: Tab, foco, botão, modal, contraste..."
-                aria-label="Buscar pelo sintoma de acessibilidade"
               />
             </div>
             <div className={styles.field}>
@@ -241,32 +255,34 @@ export default function Home() {
         </section>
 
         <div className={styles.bar}>
-          <p className={styles.count} aria-live="polite" aria-atomic="true">
-            {countMsg}
-          </p>
+          <p className={styles.count}>{countMsg}</p>
+          <span className={styles.srOnly} aria-live="polite" aria-atomic="true">
+            {announceMsg}
+          </span>
           {dirty && (
             <button
               type="button"
               className={styles.clear}
-              onClick={() => { setQ(''); setCat('todos'); setComp('todos'); }}>
+              onClick={clearFilters}>
               Limpar filtros
             </button>
           )}
         </div>
 
+        <h2 className={styles.srOnly}>Sintomas encontrados</h2>
         <div id="sintomas" className={styles.list}>
           {list.map((item) => (
             <Card key={item.id} item={item} open={openIds.has(item.id)} onToggle={toggle} />
           ))}
         </div>
 
-        <section aria-label="Sobre este handbook" className={styles.about}>
+        <div className={styles.about}>
           <p>
             <strong>Sobre esta view:</strong> renderizada a partir de um schema
             canônico (<code>schema.json</code>) + dados (<code>data.json</code>). Os mesmos
             dados podem alimentar outras views ou uma API.
           </p>
-        </section>
+        </div>
 
       </main>
     </Layout>
