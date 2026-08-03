@@ -74,7 +74,12 @@
     },
     "wcag": {
       "type": "array",
-      "description": "Critérios de sucesso WCAG relacionados (ex.: '2.1.1'). PENDENTE: ainda não populado para nenhum item — depende do conteúdo real do protótipo 'Handbook WCAG', que ainda não foi verificado nesta base.",
+      "description": "Critérios de sucesso WCAG relacionados (ex.: '2.1.1').",
+      "items": { "type": "string" }
+    },
+    "abnt_nbr": {
+      "type": "array",
+      "description": "Referências às normas ABNT NBR (ex.: NBR ISO/IEC 40500, equivalente nacional da WCAG) relacionadas, quando mapeadas.",
       "items": { "type": "string" }
     },
     "keywords": {

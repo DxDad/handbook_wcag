@@ -30,6 +30,22 @@ const IMP_LABEL = {
   baixo: 'Impacto baixo',
 };
 
+// Só oferece nos selects as categorias/componentes que existem de fato em
+// data.json — evita opções "fantasma" que sempre retornam zero resultados.
+const AVAILABLE_CATS = new Set(DATA.map((item) => item.categoria));
+const AVAILABLE_COMPS = new Set(DATA.flatMap((item) => item.componentes || []));
+
+if (process.env.NODE_ENV !== 'production') {
+  const seen = new Set();
+  DATA.forEach((item) => {
+    if (seen.has(item.id)) {
+      // eslint-disable-next-line no-console
+      console.error('Handbook A11Y: id duplicado em data.json:', item.id);
+    }
+    seen.add(item.id);
+  });
+}
+
 function norm(t) {
   return (t || '').toLowerCase().normalize('NFD').replace(/\p{M}/gu, '');
 }
@@ -41,7 +57,7 @@ function Card({item, open, onToggle}) {
   const mId = item.id + '-m';
   return (
     <article className={styles.card + (open ? ' ' + styles.cardOpen : '')}>
-      <h2 id={hId} className={styles.cardHWrap}>
+      <h3 id={hId} className={styles.cardHWrap}>
         <button
           type="button"
           className={styles.cardBtn}
@@ -80,26 +96,26 @@ function Card({item, open, onToggle}) {
             {open ? '▴' : '▾'}
           </span>
         </button>
-      </h2>
+      </h3>
       <div id={bId} hidden={!open} className={styles.body}>
         {item.descricao_curta && (
           <p className={styles.bodyIntro}>{item.descricao_curta}</p>
         )}
         <div className={styles.boxes}>
           <div className={styles.box}>
-            <h3 className={styles.boxH}>Causa provável</h3>
+            <h4 className={styles.boxH}>Causa provável</h4>
             <ul className={styles.boxList}>
               {item.causas_provaveis.map((c, i) => <li key={i}>{c}</li>)}
             </ul>
           </div>
           <div className={styles.box}>
-            <h3 className={styles.boxH}>Solução mínima</h3>
+            <h4 className={styles.boxH}>Solução mínima</h4>
             <ol className={styles.boxList}>
               {item.solucao_minima.map((s, i) => <li key={i}>{s}</li>)}
             </ol>
           </div>
           <div className={styles.box}>
-            <h3 className={styles.boxH}>Como validar</h3>
+            <h4 className={styles.boxH}>Como validar</h4>
             <ul className={styles.boxList}>
               {item.validacao.map((v, i) => <li key={i}>{v}</li>)}
             </ul>
@@ -143,7 +159,8 @@ export default function Home() {
     });
   }, [q, cat, comp]);
 
-  const dirty = q.trim() || cat !== 'todos' || comp !== 'todos';
+  const dirty = Boolean(q.trim() || cat !== 'todos' || comp !== 'todos');
+  const allOpen = list.length > 0 && list.every((item) => openIds.has(item.id));
 
   const countMsg =
     list.length === DATA.length
@@ -166,6 +183,10 @@ export default function Home() {
     searchRef.current?.focus();
   };
 
+  const toggleAll = () => {
+    setOpenIds(allOpen ? new Set() : new Set(list.map((item) => item.id)));
+  };
+
   return (
     <Layout
       title="Sintoma, causa, solução"
@@ -179,7 +200,7 @@ export default function Home() {
             A gente te diz o que fazer.
           </h1>
           <p className={styles.lead}>
-            Cada item combina duas facetas:{' '}
+            Cada item combina duas informações independentes:{' '}
             <strong>categoria</strong> (o tipo do problema) e{' '}
             <strong>componente</strong> (onde ele aparece na UI). Filtre pelo
             sintoma, encontre a causa provável e a correção mínima.
@@ -229,7 +250,7 @@ export default function Home() {
                 value={cat}
                 onChange={(e) => setCat(e.target.value)}>
                 <option value="todos">Todas as categorias</option>
-                {Object.entries(CAT).map(([v, l]) => (
+                {Object.entries(CAT).filter(([v]) => AVAILABLE_CATS.has(v)).map(([v, l]) => (
                   <option key={v} value={v}>{l}</option>
                 ))}
               </select>
@@ -242,7 +263,7 @@ export default function Home() {
                 value={comp}
                 onChange={(e) => setComp(e.target.value)}>
                 <option value="todos">Todos os componentes</option>
-                {Object.entries(COMP).map(([v, l]) => (
+                {Object.entries(COMP).filter(([v]) => AVAILABLE_COMPS.has(v)).map(([v, l]) => (
                   <option key={v} value={v}>{l}</option>
                 ))}
               </select>
@@ -254,19 +275,54 @@ export default function Home() {
           </div>
         </section>
 
+        {(cat !== 'todos' || comp !== 'todos') && (
+          <div className={styles.chips} aria-label="Filtros ativos">
+            {cat !== 'todos' && (
+              <button
+                type="button"
+                className={styles.chip}
+                onClick={() => setCat('todos')}
+                aria-label={'Remover filtro de categoria: ' + (CAT[cat] || cat)}>
+                Categoria: {CAT[cat] || cat}
+                <span aria-hidden="true"> ×</span>
+              </button>
+            )}
+            {comp !== 'todos' && (
+              <button
+                type="button"
+                className={styles.chip}
+                onClick={() => setComp('todos')}
+                aria-label={'Remover filtro de componente: ' + (COMP[comp] || comp)}>
+                Componente: {COMP[comp] || comp}
+                <span aria-hidden="true"> ×</span>
+              </button>
+            )}
+          </div>
+        )}
+
         <div className={styles.bar}>
           <p className={styles.count}>{countMsg}</p>
           <span className={styles.srOnly} aria-live="polite" aria-atomic="true">
             {announceMsg}
           </span>
-          {dirty && (
+          <div className={styles.barActions}>
+            {list.length >= 6 && (
+              <button
+                type="button"
+                className={styles.clear}
+                aria-pressed={allOpen}
+                onClick={toggleAll}>
+                {allOpen ? 'Fechar todos' : 'Abrir todos'}
+              </button>
+            )}
             <button
               type="button"
               className={styles.clear}
-              onClick={clearFilters}>
+              onClick={clearFilters}
+              disabled={!dirty}>
               Limpar filtros
             </button>
-          )}
+          </div>
         </div>
 
         <h2 className={styles.srOnly}>Sintomas encontrados</h2>
@@ -276,6 +332,7 @@ export default function Home() {
           ))}
         </div>
 
+        <h2 className={styles.srOnly}>Sobre esta view</h2>
         <div className={styles.about}>
           <p>
             <strong>Sobre esta view:</strong> renderizada a partir de um schema

@@ -320,7 +320,7 @@
       "Confirme se Tab não vai para o conteúdo de fundo.",
       "Feche com Esc, quando aplicável, e confira o retorno do foco."
     ],
-    "exemplo_codigo": null,
+    "exemplo_codigo": "<dialog id=\"d\" aria-labelledby=\"d-titulo\">\n  <h2 id=\"d-titulo\">Título</h2>\n  <button type=\"button\" autofocus>Fechar</button>\n</dialog>\n\n<script>\n  document.getElementById('d').showModal();\n</script>",
     "impacto": "alto",
     "responsaveis": [
       "dev",

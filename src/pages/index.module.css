@@ -148,11 +148,15 @@
   transition: border-color 0.15s;
   width: 100%;
 }
+.inp::placeholder {
+  color: var(--hb-muted);
+  opacity: 1;
+}
 .inp:focus,
 .sel:focus {
   border-color: var(--hb-cat);
   outline: 3px solid var(--hb-focus-ring);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 .legend {
   display: flex;
@@ -166,19 +170,53 @@
 .lComp { color: var(--hb-comp); }
 
 /* ====================================================
+   Active filter chips
+   ==================================================== */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  background: var(--hb-cat-bg);
+  color: var(--hb-cat);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.chip:hover {
+  border-color: var(--hb-cat);
+}
+
+/* ====================================================
    Results bar
    ==================================================== */
 .bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 1rem;
-  margin: 1.25rem 0 0.75rem;
+  margin: 1.5rem 0 1rem;
 }
 .count {
   font-size: 0.9375rem;
   color: var(--hb-muted);
   margin: 0;
+}
+.barActions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
 }
 .clear {
   min-height: 44px;
@@ -198,6 +236,19 @@
 .clear:hover {
   border-color: var(--hb-cat);
   color: var(--hb-cat);
+}
+.clear[aria-pressed='true'] {
+  border-color: var(--hb-cat);
+  color: var(--hb-cat);
+  background: var(--hb-cat-bg);
+}
+.clear:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.clear:disabled:hover {
+  border-color: var(--hb-border);
+  color: var(--hb-muted);
 }
 
 /* ====================================================
@@ -226,7 +277,7 @@
   box-shadow: 0 2px 16px rgba(53,56,205,.10);
 }
 
-/* The h2 that wraps each button */
+/* The h3 that wraps each card's toggle button */
 .cardHWrap {
   margin: 0;
   font: inherit;
@@ -260,7 +311,7 @@
 }
 .sintoma {
   font-family: 'Space Grotesk', var(--ifm-heading-font-family);
-  font-size: 1.0625rem;
+  font-size: 1.125rem;
   font-weight: 700;
   line-height: 1.35;
   letter-spacing: -0.01em;
@@ -291,6 +342,15 @@
 .imp-alto  { background: var(--hb-red-bg);    color: var(--hb-red); }
 .imp-medio { background: var(--hb-yellow-bg); color: var(--hb-yellow); }
 .imp-baixo { background: var(--hb-green-bg);  color: var(--hb-green); }
+
+/* Windows High Contrast (forced-colors) removes background-color, então os
+   pills perderiam o contorno de agrupamento visual sem uma borda explícita. */
+@media (forced-colors: active) {
+  .pill,
+  .chip {
+    border: 1px solid CanvasText;
+  }
+}
 
 /* Chevron */
 .chev {
@@ -370,7 +430,7 @@
 .about {
   margin-top: 2.5rem;
   padding-top: 1.5rem;
-  border-top: 1px solid var(--hb-border);
+  border-top: 1.5px solid var(--hb-border);
   max-width: 75ch;
   font-size: 0.875rem;
   color: var(--hb-muted);
@@ -401,5 +461,14 @@
   .finder {
     border-radius: 10px;
     padding: 1rem;
+  }
+  .barActions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  .header {
+    padding-block: 1.5rem;
   }
 }
