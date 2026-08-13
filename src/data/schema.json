@@ -1,0 +1,394 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dxdad.github.io/handbook_wcag/schema.json",
+  "title": "Handbook A11Y — coleção de sintomas",
+  "description": "Contrato de dados do Handbook A11Y. Cada item descreve, de forma anônima e reutilizável, um sintoma de acessibilidade observado em avaliações reais. A referência normativa é exclusivamente a WCAG 2.2.",
+  "type": "object",
+  "required": [
+    "versao",
+    "referencia_normativa",
+    "itens"
+  ],
+  "properties": {
+    "versao": {
+      "type": "string",
+      "description": "Versão semântica do conjunto de dados.",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$",
+      "examples": [
+        "2.0.0"
+      ]
+    },
+    "referencia_normativa": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nome",
+        "versao",
+        "url"
+      ],
+      "properties": {
+        "nome": {
+          "const": "WCAG"
+        },
+        "versao": {
+          "const": "2.2"
+        },
+        "url": {
+          "const": "https://www.w3.org/TR/WCAG22/"
+        }
+      }
+    },
+    "itens": {
+      "type": "array",
+      "description": "Fichas publicáveis do handbook. Os identificadores devem ser únicos em toda a coleção.",
+      "items": {
+        "$ref": "#/$defs/item"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "listaTextos": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 10,
+        "maxLength": 500
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "blocoLista": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "titulo",
+        "itens"
+      ],
+      "properties": {
+        "titulo": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 60
+        },
+        "itens": {
+          "$ref": "#/$defs/listaTextos"
+        }
+      }
+    },
+    "metodoValidacao": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "metodo",
+        "itens"
+      ],
+      "properties": {
+        "metodo": {
+          "type": "string",
+          "enum": [
+            "Teclado",
+            "Leitor de tela",
+            "Inspeção do código",
+            "Inspeção visual",
+            "Contraste",
+            "Redimensionamento",
+            "Dispositivo móvel"
+          ]
+        },
+        "itens": {
+          "$ref": "#/$defs/listaTextos"
+        }
+      }
+    },
+    "blocoValidacao": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "titulo",
+        "metodos"
+      ],
+      "properties": {
+        "titulo": {
+          "const": "Como validar"
+        },
+        "metodos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/metodoValidacao"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "exemplo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "titulo",
+        "descricao",
+        "codigo"
+      ],
+      "properties": {
+        "titulo": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 60
+        },
+        "descricao": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 500
+        },
+        "codigo": {
+          "type": "string",
+          "minLength": 3
+        }
+      }
+    },
+    "item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "titulo",
+        "tags",
+        "resumo",
+        "cards",
+        "exemplos",
+        "keywords"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Identificador permanente, sem acentos e separado por hífens. Não deve ser alterado depois da publicação.",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+          "maxLength": 80
+        },
+        "titulo": {
+          "type": "string",
+          "description": "Sintoma em linguagem reconhecível por quem testa ou utiliza a interface.",
+          "minLength": 15,
+          "maxLength": 140
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "tema",
+            "componentes",
+            "impacto",
+            "responsaveis",
+            "wcag"
+          ],
+          "properties": {
+            "tema": {
+              "type": "string",
+              "enum": [
+                "Teclado e foco",
+                "Leitores de tela",
+                "Estrutura e semântica",
+                "Navegação e orientação",
+                "Formulários e mensagens",
+                "Imagens e conteúdo não textual",
+                "Contraste e apresentação visual",
+                "Redimensionamento e responsividade",
+                "Movimento e tempo",
+                "Áudio e vídeo"
+              ]
+            },
+            "componentes": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "Página",
+                  "Cabeçalho",
+                  "Menu",
+                  "Link",
+                  "Botão",
+                  "Formulário",
+                  "Campo",
+                  "Mensagem",
+                  "Imagem",
+                  "Ícone",
+                  "Lista",
+                  "Tabela",
+                  "Modal",
+                  "Guia",
+                  "Carrossel",
+                  "Filtro",
+                  "Busca",
+                  "Áudio",
+                  "Vídeo",
+                  "Conteúdo dinâmico"
+                ]
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "impacto": {
+              "type": "string",
+              "description": "Prioridade prática baseada no impacto para a pessoa usuária; não equivale ao nível de conformidade da WCAG.",
+              "enum": [
+                "alto",
+                "medio",
+                "baixo"
+              ]
+            },
+            "responsaveis": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "Dev",
+                  "QA",
+                  "UX",
+                  "Conteúdo"
+                ]
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            },
+            "wcag": {
+              "type": "array",
+              "description": "Critérios de sucesso relacionados, sempre interpretados conforme a WCAG 2.2.",
+              "items": {
+                "type": "string",
+                "pattern": "^[1-4]\\.[1-9][0-9]?\\.[1-9][0-9]?$"
+              },
+              "minItems": 1,
+              "uniqueItems": true
+            }
+          }
+        },
+        "resumo": {
+          "type": "string",
+          "description": "Explica o comportamento observado e seu impacto, sem citar produtos, organizações ou relatórios de origem.",
+          "minLength": 50,
+          "maxLength": 700
+        },
+        "cards": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "possiveis_causas",
+            "solucao_minima",
+            "como_validar",
+            "boas_praticas"
+          ],
+          "properties": {
+            "possiveis_causas": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/blocoLista"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "titulo": {
+                      "const": "Possíveis causas"
+                    }
+                  }
+                }
+              ]
+            },
+            "solucao_minima": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/blocoLista"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "titulo": {
+                      "const": "Solução mínima"
+                    }
+                  }
+                }
+              ]
+            },
+            "como_validar": {
+              "$ref": "#/$defs/blocoValidacao"
+            },
+            "boas_praticas": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/blocoLista"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "titulo": {
+                      "const": "Boas práticas"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "exemplos": {
+          "description": "Exemplos comparativos quando uma implementação concisa representa adequadamente o problema. Use null quando um trecho isolado puder induzir a uma solução incorreta.",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "incorreto",
+                "correto"
+              ],
+              "properties": {
+                "incorreto": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/exemplo"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "titulo": {
+                          "const": "Exemplo incorreto"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "correto": {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/exemplo"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "titulo": {
+                          "const": "Exemplo correto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "keywords": {
+          "type": "array",
+          "description": "Termos adicionais usados pela busca, sem repetição de nomes próprios ou referências às fontes.",
+          "items": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 50
+          },
+          "minItems": 3,
+          "maxItems": 25,
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

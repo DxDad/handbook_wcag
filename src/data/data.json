@@ -1,0 +1,629 @@
+{
+  "versao": "2.0.0",
+  "referencia_normativa": {
+    "nome": "WCAG",
+    "versao": "2.2",
+    "url": "https://www.w3.org/TR/WCAG22/"
+  },
+  "itens": [
+    {
+      "id": "controle-nao-recebe-foco-com-tab",
+      "titulo": "Não consigo acessar um controle usando a tecla Tab",
+      "tags": {
+        "tema": "Teclado e foco",
+        "componentes": [
+          "Botão",
+          "Link",
+          "Campo"
+        ],
+        "impacto": "alto",
+        "responsaveis": [
+          "Dev",
+          "QA"
+        ],
+        "wcag": [
+          "2.1.1",
+          "4.1.2"
+        ]
+      },
+      "resumo": "O controle funciona com o mouse ou com o toque, mas não entra na sequência de navegação por teclado. Pessoas que não utilizam um dispositivo apontador podem ficar impedidas de executar a ação ou prosseguir no fluxo.",
+      "cards": {
+        "possiveis_causas": {
+          "titulo": "Possíveis causas",
+          "itens": [
+            "Uso de elementos genéricos, como div ou span, para representar controles interativos.",
+            "Link criado sem o atributo href ou controle removido da ordem de foco com tabindex igual a -1.",
+            "Componente personalizado que responde somente a eventos de clique, toque ou ponteiro."
+          ]
+        },
+        "solucao_minima": {
+          "titulo": "Solução mínima",
+          "itens": [
+            "Use button para ações e a com href para navegação.",
+            "Mantenha os controles operáveis por teclado e na ordem natural de foco.",
+            "Garanta acionamento por Enter e, para botões, também por Espaço."
+          ]
+        },
+        "como_validar": {
+          "titulo": "Como validar",
+          "metodos": [
+            {
+              "metodo": "Teclado",
+              "itens": [
+                "Percorra a interface usando Tab e Shift+Tab, sem utilizar o mouse.",
+                "Confirme que o controle recebe foco e pode ser acionado pelo teclado.",
+                "Verifique se a operação produz o mesmo resultado essencial oferecido por clique ou toque."
+              ]
+            },
+            {
+              "metodo": "Leitor de tela",
+              "itens": [
+                "Navegue até o controle e confirme se seu nome e sua função são anunciados.",
+                "Acione o controle com os comandos de teclado do leitor de tela."
+              ]
+            }
+          ]
+        },
+        "boas_praticas": {
+          "titulo": "Boas práticas",
+          "itens": [
+            "Prefira elementos HTML nativos antes de criar controles personalizados.",
+            "Evite adicionar tabindex igual a zero em elementos que não executam ações.",
+            "Inclua a navegação por teclado nos testes de regressão do componente."
+          ]
+        }
+      },
+      "exemplos": {
+        "incorreto": {
+          "titulo": "Exemplo incorreto",
+          "descricao": "Uma div reage ao clique, mas não possui semântica nem comportamento de teclado.",
+          "codigo": "<div class=\"botao\" onclick=\"abrirMenu()\">\n  Abrir menu\n</div>"
+        },
+        "correto": {
+          "titulo": "Exemplo correto",
+          "descricao": "O botão nativo já recebe foco e oferece o comportamento esperado de teclado.",
+          "codigo": "<button type=\"button\" onclick=\"abrirMenu()\">\n  Abrir menu\n</button>"
+        }
+      },
+      "keywords": [
+        "teclado",
+        "tab",
+        "foco",
+        "clique",
+        "botão",
+        "link",
+        "tabindex"
+      ]
+    },
+    {
+      "id": "conteudo-oculto-recebe-foco",
+      "titulo": "Itens ocultos continuam recebendo foco pelo teclado",
+      "tags": {
+        "tema": "Teclado e foco",
+        "componentes": [
+          "Menu",
+          "Modal",
+          "Carrossel",
+          "Conteúdo dinâmico"
+        ],
+        "impacto": "alto",
+        "responsaveis": [
+          "Dev",
+          "QA"
+        ],
+        "wcag": [
+          "1.3.2",
+          "2.4.3"
+        ]
+      },
+      "resumo": "Ao navegar com Tab, o foco passa por links, botões ou campos que estão recolhidos, fora do slide ativo ou visualmente encobertos. A pessoa perde a referência de onde está e pode interagir com conteúdo que não deveria estar disponível naquele momento.",
+      "cards": {
+        "possiveis_causas": {
+          "titulo": "Possíveis causas",
+          "itens": [
+            "O conteúdo foi apenas deslocado, tornou-se transparente ou recebeu visibilidade visual reduzida, mas seus controles permaneceram focáveis.",
+            "Slides inativos, submenus recolhidos ou elementos de fundo do modal continuam presentes na ordem de foco.",
+            "O estado visual do componente não é sincronizado com sua disponibilidade para teclado e tecnologias assistivas."
+          ]
+        },
+        "solucao_minima": {
+          "titulo": "Solução mínima",
+          "itens": [
+            "Retire da ordem de foco os controles que não estão disponíveis visualmente.",
+            "Ao exibir novamente o conteúdo, restaure sua semântica e seu comportamento de foco.",
+            "Em modais, impeça a navegação pelo conteúdo de fundo enquanto o diálogo estiver aberto."
+          ]
+        },
+        "como_validar": {
+          "titulo": "Como validar",
+          "metodos": [
+            {
+              "metodo": "Teclado",
+              "itens": [
+                "Recolha o menu, altere o slide ou abra o modal e percorra a interface com Tab.",
+                "Confirme que somente os controles visíveis e disponíveis recebem foco.",
+                "Verifique se o indicador de foco nunca desaparece em uma área encoberta ou fora da tela."
+              ]
+            },
+            {
+              "metodo": "Leitor de tela",
+              "itens": [
+                "Confirme que o conteúdo oculto não aparece na navegação do leitor de tela.",
+                "Verifique se o conteúdo volta a ser anunciado quando é exibido."
+              ]
+            }
+          ]
+        },
+        "boas_praticas": {
+          "titulo": "Boas práticas",
+          "itens": [
+            "Trate visibilidade, ordem de foco e árvore de acessibilidade como partes do mesmo estado do componente.",
+            "Teste todos os estados do componente, e não apenas sua aparência inicial.",
+            "Em componentes complexos, siga o padrão de interação correspondente do WAI-ARIA Authoring Practices."
+          ]
+        }
+      },
+      "exemplos": null,
+      "keywords": [
+        "invisível",
+        "oculto",
+        "submenu",
+        "slide inativo",
+        "segundo plano",
+        "ordem do foco",
+        "tab"
+      ]
+    },
+    {
+      "id": "estado-expandido-nao-anunciado",
+      "titulo": "O leitor de tela não informa se o conteúdo está expandido ou recolhido",
+      "tags": {
+        "tema": "Leitores de tela",
+        "componentes": [
+          "Botão",
+          "Menu",
+          "Conteúdo dinâmico"
+        ],
+        "impacto": "alto",
+        "responsaveis": [
+          "Dev",
+          "QA"
+        ],
+        "wcag": [
+          "4.1.2"
+        ]
+      },
+      "resumo": "Um botão abre e fecha um menu, uma lista ou outro bloco de conteúdo, mas a tecnologia assistiva não recebe o estado atual do componente. A pessoa não consegue saber se a ação funcionou nem se há conteúdo adicional disponível.",
+      "cards": {
+        "possiveis_causas": {
+          "titulo": "Possíveis causas",
+          "itens": [
+            "Ausência do atributo aria-expanded no controle que alterna a visibilidade do conteúdo.",
+            "Valor de aria-expanded não atualizado quando o componente muda de estado.",
+            "Controle e conteúdo relacionado não possuem uma associação programática clara."
+          ]
+        },
+        "solucao_minima": {
+          "titulo": "Solução mínima",
+          "itens": [
+            "Implemente o acionador como um botão com nome acessível claro.",
+            "Use aria-expanded com false quando o conteúdo estiver recolhido e true quando estiver expandido.",
+            "Associe o botão ao conteúdo controlado por meio de aria-controls quando essa relação ajudar a identificar o componente."
+          ]
+        },
+        "como_validar": {
+          "titulo": "Como validar",
+          "metodos": [
+            {
+              "metodo": "Leitor de tela",
+              "itens": [
+                "Navegue até o acionador e confirme se o estado recolhido é anunciado antes da ativação.",
+                "Acione o botão e confirme se o estado muda para expandido.",
+                "Acione novamente e verifique se o estado retorna para recolhido."
+              ]
+            },
+            {
+              "metodo": "Inspeção do código",
+              "itens": [
+                "Confirme que aria-expanded está no elemento que recebe foco e executa a ação.",
+                "Verifique se o valor do atributo acompanha todas as mudanças visuais do componente."
+              ]
+            }
+          ]
+        },
+        "boas_praticas": {
+          "titulo": "Boas práticas",
+          "itens": [
+            "Mantenha o nome do botão estável e comunique o estado por meio de aria-expanded.",
+            "Não use apenas troca de ícone, rotação de seta ou mudança de cor para representar o estado.",
+            "Evite adicionar informações redundantes ao nome acessível quando o estado já é comunicado semanticamente."
+          ]
+        }
+      },
+      "exemplos": {
+        "incorreto": {
+          "titulo": "Exemplo incorreto",
+          "descricao": "O botão altera a aparência do menu, mas não expõe seu estado às tecnologias assistivas.",
+          "codigo": "<button type=\"button\" onclick=\"alternarMenu()\">\n  Produtos\n</button>\n<nav id=\"menu-produtos\" hidden>...</nav>"
+        },
+        "correto": {
+          "titulo": "Exemplo correto",
+          "descricao": "O botão informa o estado atual e identifica o conteúdo que controla.",
+          "codigo": "<button type=\"button\"\n  aria-expanded=\"false\"\n  aria-controls=\"menu-produtos\">\n  Produtos\n</button>\n<nav id=\"menu-produtos\" hidden>...</nav>"
+        }
+      },
+      "keywords": [
+        "expandido",
+        "recolhido",
+        "aria-expanded",
+        "submenu",
+        "disclosure",
+        "estado",
+        "leitor de tela"
+      ]
+    },
+    {
+      "id": "erro-visual-nao-anunciado",
+      "titulo": "A mensagem de erro aparece visualmente, mas não é anunciada",
+      "tags": {
+        "tema": "Formulários e mensagens",
+        "componentes": [
+          "Formulário",
+          "Campo",
+          "Mensagem"
+        ],
+        "impacto": "alto",
+        "responsaveis": [
+          "Dev",
+          "QA",
+          "Conteúdo"
+        ],
+        "wcag": [
+          "3.3.1",
+          "4.1.3"
+        ]
+      },
+      "resumo": "Depois do envio ou da validação de um campo, uma mensagem de erro é exibida na tela sem ser comunicada ao leitor de tela. A pessoa pode acreditar que nada aconteceu e não consegue identificar o que precisa corrigir.",
+      "cards": {
+        "possiveis_causas": {
+          "titulo": "Possíveis causas",
+          "itens": [
+            "A mensagem é inserida dinamicamente sem uma região viva ou outro mecanismo de notificação.",
+            "O campo inválido não está associado programaticamente à mensagem correspondente.",
+            "O estado inválido é representado apenas por cor, borda ou ícone."
+          ]
+        },
+        "solucao_minima": {
+          "titulo": "Solução mínima",
+          "itens": [
+            "Identifique o erro em texto e associe a mensagem ao campo correspondente.",
+            "Marque o campo inválido com aria-invalid igual a true quando a validação falhar.",
+            "Use uma região viva adequada para comunicar mensagens inseridas sem mudança de foco."
+          ]
+        },
+        "como_validar": {
+          "titulo": "Como validar",
+          "metodos": [
+            {
+              "metodo": "Teclado",
+              "itens": [
+                "Envie o formulário com um dado ausente ou inválido usando apenas o teclado.",
+                "Confirme que é possível localizar o campo com erro e corrigir seu conteúdo."
+              ]
+            },
+            {
+              "metodo": "Leitor de tela",
+              "itens": [
+                "Provoque o erro e confirme que a mensagem é anunciada sem exigir uma busca manual pela página.",
+                "Ao retornar ao campo, verifique se a mensagem associada é anunciada junto de seu nome e estado."
+              ]
+            },
+            {
+              "metodo": "Inspeção do código",
+              "itens": [
+                "Verifique a associação entre campo e mensagem por aria-describedby ou mecanismo equivalente.",
+                "Confirme que a região viva existe antes da inserção dinâmica da mensagem."
+              ]
+            }
+          ]
+        },
+        "boas_praticas": {
+          "titulo": "Boas práticas",
+          "itens": [
+            "Apresente um resumo de erros quando o formulário tiver vários campos inválidos.",
+            "Explique como corrigir o dado, e não apenas que ele está incorreto.",
+            "Não remova automaticamente o conteúdo digitado quando a validação falhar."
+          ]
+        }
+      },
+      "exemplos": {
+        "incorreto": {
+          "titulo": "Exemplo incorreto",
+          "descricao": "A mensagem aparece visualmente, mas não está associada ao campo nem é anunciada como atualização.",
+          "codigo": "<label for=\"email\">E-mail</label>\n<input id=\"email\" type=\"email\">\n<p class=\"erro\">Informe um e-mail válido.</p>"
+        },
+        "correto": {
+          "titulo": "Exemplo correto",
+          "descricao": "O campo expõe o estado inválido e referencia a mensagem de erro anunciável.",
+          "codigo": "<label for=\"email\">E-mail</label>\n<input id=\"email\" type=\"email\"\n  aria-invalid=\"true\"\n  aria-describedby=\"erro-email\">\n<p id=\"erro-email\" role=\"alert\">\n  Informe um e-mail válido.\n</p>"
+        }
+      },
+      "keywords": [
+        "erro",
+        "validação",
+        "formulário",
+        "aria-invalid",
+        "aria-describedby",
+        "alerta",
+        "mensagem de status"
+      ]
+    },
+    {
+      "id": "hierarquia-de-titulos-incoerente",
+      "titulo": "Os títulos não representam corretamente a estrutura da página",
+      "tags": {
+        "tema": "Estrutura e semântica",
+        "componentes": [
+          "Página",
+          "Cabeçalho"
+        ],
+        "impacto": "alto",
+        "responsaveis": [
+          "Dev",
+          "QA",
+          "Conteúdo"
+        ],
+        "wcag": [
+          "1.3.1",
+          "2.4.6"
+        ]
+      },
+      "resumo": "A aparência sugere títulos e subtítulos, mas os níveis de cabeçalho estão ausentes, são usados apenas por estilo ou não representam a relação entre as seções. Isso dificulta compreender a organização do conteúdo e navegar diretamente entre suas partes.",
+      "cards": {
+        "possiveis_causas": {
+          "titulo": "Possíveis causas",
+          "itens": [
+            "Textos visualmente destacados foram criados com div, span ou parágrafo em vez de elementos de cabeçalho.",
+            "Níveis de cabeçalho foram escolhidos pelo tamanho visual, e não pela posição da seção na estrutura.",
+            "Cabeçalhos vazios, ocultos ou repetidos foram inseridos para atender ao layout ou a componentes automatizados."
+          ]
+        },
+        "solucao_minima": {
+          "titulo": "Solução mínima",
+          "itens": [
+            "Identifique o assunto principal e as seções reais da página.",
+            "Marque os títulos com elementos h1 a h6 de acordo com sua relação hierárquica.",
+            "Remova cabeçalhos vazios e não use níveis de título apenas para obter um estilo visual."
+          ]
+        },
+        "como_validar": {
+          "titulo": "Como validar",
+          "metodos": [
+            {
+              "metodo": "Leitor de tela",
+              "itens": [
+                "Liste os cabeçalhos da página e verifique se eles apresentam um resumo coerente do conteúdo.",
+                "Navegue por cabeçalhos e confirme se cada um leva à seção correspondente."
+              ]
+            },
+            {
+              "metodo": "Inspeção do código",
+              "itens": [
+                "Compare a hierarquia visual com a sequência dos elementos h1 a h6.",
+                "Confirme que não existem cabeçalhos vazios ou ocultos da apresentação e expostos apenas à tecnologia assistiva."
+              ]
+            }
+          ]
+        },
+        "boas_praticas": {
+          "titulo": "Boas práticas",
+          "itens": [
+            "Separe a estrutura semântica da aparência e aplique estilos por CSS.",
+            "Use títulos descritivos que permitam reconhecer o assunto da seção fora do contexto visual.",
+            "Inclua a revisão da estrutura de cabeçalhos nos modelos de página e componentes editoriais."
+          ]
+        }
+      },
+      "exemplos": {
+        "incorreto": {
+          "titulo": "Exemplo incorreto",
+          "descricao": "O destaque visual é produzido por classes, mas não existe uma estrutura de cabeçalhos programaticamente identificável.",
+          "codigo": "<div class=\"titulo-principal\">Serviços</div>\n<div class=\"titulo-secao\">Atendimento</div>"
+        },
+        "correto": {
+          "titulo": "Exemplo correto",
+          "descricao": "Os elementos de cabeçalho representam o assunto principal e uma seção subordinada.",
+          "codigo": "<h1>Serviços</h1>\n<section aria-labelledby=\"atendimento\">\n  <h2 id=\"atendimento\">Atendimento</h2>\n</section>"
+        }
+      },
+      "keywords": [
+        "cabeçalho",
+        "heading",
+        "h1",
+        "h2",
+        "hierarquia",
+        "título",
+        "semântica"
+      ]
+    },
+    {
+      "id": "conteudo-cortado-na-ampliacao",
+      "titulo": "Textos e controles são cortados quando a página é ampliada",
+      "tags": {
+        "tema": "Redimensionamento e responsividade",
+        "componentes": [
+          "Página",
+          "Menu",
+          "Imagem",
+          "Conteúdo dinâmico"
+        ],
+        "impacto": "alto",
+        "responsaveis": [
+          "Dev",
+          "QA",
+          "UX"
+        ],
+        "wcag": [
+          "1.4.4",
+          "1.4.10"
+        ]
+      },
+      "resumo": "Ao aumentar o texto ou ampliar a visualização, partes da interface ficam cortadas, sobrepostas ou indisponíveis. Em alguns casos surge rolagem horizontal para conteúdos que deveriam se reorganizar, impedindo que pessoas com baixa visão leiam ou acionem todos os elementos.",
+      "cards": {
+        "possiveis_causas": {
+          "titulo": "Possíveis causas",
+          "itens": [
+            "Contêineres possuem largura ou altura fixa e não crescem com o conteúdo.",
+            "Textos, imagens e controles não quebram linha nem se reorganizam em larguras reduzidas.",
+            "Elementos posicionados de forma fixa ou absoluta sobrepõem o conteúdo durante a ampliação."
+          ]
+        },
+        "solucao_minima": {
+          "titulo": "Solução mínima",
+          "itens": [
+            "Permita que blocos e controles cresçam ou mudem de posição conforme o conteúdo disponível.",
+            "Evite dimensões fixas que cortem texto e use unidades e limites responsivos.",
+            "Garanta que conteúdo e funcionalidade permaneçam disponíveis com texto ampliado em 200% e em uma largura equivalente a 320 pixels CSS."
+          ]
+        },
+        "como_validar": {
+          "titulo": "Como validar",
+          "metodos": [
+            {
+              "metodo": "Redimensionamento",
+              "itens": [
+                "Amplie o texto em 200% e verifique se nenhuma informação ou funcionalidade é perdida.",
+                "Teste a página em largura equivalente a 320 pixels CSS e confirme que o conteúdo se reorganiza sem rolagem em duas dimensões, salvo exceções essenciais.",
+                "Abra menus, modais, formulários e mensagens em cada condição de ampliação."
+              ]
+            },
+            {
+              "metodo": "Teclado",
+              "itens": [
+                "Percorra a página ampliada e confirme que todos os controles visíveis recebem foco.",
+                "Verifique se o foco não é ocultado por conteúdo fixo ou por elementos sobrepostos."
+              ]
+            }
+          ]
+        },
+        "boas_praticas": {
+          "titulo": "Boas práticas",
+          "itens": [
+            "Teste a responsividade com conteúdo real e textos maiores do que os previstos no layout.",
+            "Não ofereça uma versão separada como substituição para a capacidade de ampliação da interface principal.",
+            "Inclua estados expandidos e mensagens de erro nos testes de reflow."
+          ]
+        }
+      },
+      "exemplos": {
+        "incorreto": {
+          "titulo": "Exemplo incorreto",
+          "descricao": "A altura fixa impede que o componente cresça quando o texto ocupa mais linhas.",
+          "codigo": ".card {\n  width: 320px;\n  height: 120px;\n  overflow: hidden;\n}"
+        },
+        "correto": {
+          "titulo": "Exemplo correto",
+          "descricao": "O componente respeita a largura disponível e pode crescer conforme o conteúdo.",
+          "codigo": ".card {\n  width: min(100%, 20rem);\n  min-height: 7.5rem;\n  overflow-wrap: anywhere;\n}"
+        }
+      },
+      "keywords": [
+        "zoom",
+        "ampliação",
+        "200%",
+        "reflow",
+        "responsividade",
+        "rolagem horizontal",
+        "conteúdo cortado"
+      ]
+    },
+    {
+      "id": "controle-sem-nome-acessivel",
+      "titulo": "O leitor de tela anuncia o controle sem explicar sua função",
+      "tags": {
+        "tema": "Leitores de tela",
+        "componentes": [
+          "Botão",
+          "Link",
+          "Ícone"
+        ],
+        "impacto": "alto",
+        "responsaveis": [
+          "Dev",
+          "QA",
+          "Conteúdo"
+        ],
+        "wcag": [
+          "4.1.2"
+        ]
+      },
+      "resumo": "Um botão ou link é anunciado apenas pela função genérica, pelo nome do arquivo ou por um texto que não explica a ação. Sem um nome acessível, a pessoa não consegue decidir se deve acionar o controle.",
+      "cards": {
+        "possiveis_causas": {
+          "titulo": "Possíveis causas",
+          "itens": [
+            "Controle contém apenas um ícone ou uma imagem sem alternativa textual adequada.",
+            "Texto visível foi ocultado da árvore de acessibilidade com aria-hidden.",
+            "Nome acessível está vazio, é genérico ou descreve a aparência do ícone em vez da ação."
+          ]
+        },
+        "solucao_minima": {
+          "titulo": "Solução mínima",
+          "itens": [
+            "Forneça um nome acessível que descreva a ação ou o destino do controle.",
+            "Prefira texto visível; quando isso não for possível, forneça um nome programático equivalente.",
+            "Oculte da tecnologia assistiva os ícones puramente decorativos dentro de controles já nomeados."
+          ]
+        },
+        "como_validar": {
+          "titulo": "Como validar",
+          "metodos": [
+            {
+              "metodo": "Leitor de tela",
+              "itens": [
+                "Navegue por botões e links e confirme que cada nome permite prever a ação ou o destino.",
+                "Liste os controles da página e verifique se o nome continua compreensível fora do contexto visual."
+              ]
+            },
+            {
+              "metodo": "Inspeção do código",
+              "itens": [
+                "Verifique o nome acessível calculado e identifique qual conteúdo ou atributo o fornece.",
+                "Confirme que aria-hidden não remove o único texto que nomeia o controle."
+              ]
+            }
+          ]
+        },
+        "boas_praticas": {
+          "titulo": "Boas práticas",
+          "itens": [
+            "Nomeie a ação, como Fechar janela ou Remover item, em vez de descrever o ícone.",
+            "Diferencie controles semelhantes quando executarem ações sobre itens distintos.",
+            "Evite depender do atributo title como única fonte do nome acessível."
+          ]
+        }
+      },
+      "exemplos": {
+        "incorreto": {
+          "titulo": "Exemplo incorreto",
+          "descricao": "O botão possui somente um SVG sem texto que comunique sua finalidade.",
+          "codigo": "<button type=\"button\">\n  <svg aria-hidden=\"true\">...</svg>\n</button>"
+        },
+        "correto": {
+          "titulo": "Exemplo correto",
+          "descricao": "O botão recebe um nome que descreve a ação e o ícone permanece decorativo.",
+          "codigo": "<button type=\"button\" aria-label=\"Fechar janela\">\n  <svg aria-hidden=\"true\">...</svg>\n</button>"
+        }
+      },
+      "keywords": [
+        "nome acessível",
+        "botão sem texto",
+        "link vazio",
+        "ícone",
+        "svg",
+        "aria-label",
+        "função"
+      ]
+    }
+  ]
+}
