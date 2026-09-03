@@ -76,7 +76,7 @@
     "exemplo_codigo": "<button type=\"submit\">Enviar</button>",
     "impacto": "alto",
     "responsaveis": [
-      "dev",
+      "dev"
     ],
     "wcag": [
       "2.1.1",
