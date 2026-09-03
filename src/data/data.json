@@ -208,7 +208,7 @@
     "exemplo_codigo": "<div class=\"espaco\" aria-hidden=\"true\"></div>",
     "impacto": "medio",
     "responsaveis": [
-      "dev",
+      "dev"
     ],
     "wcag": [
       "2.4.3",
