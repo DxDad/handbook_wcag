@@ -1,29 +1,32 @@
 [
   {
     "id": "tab-nao-acessa",
-    "sintoma": "Não consigo acessar um componente usando Tab",
-    "descricao_curta": "O componente funciona com mouse, mas não entra na sequência de navegação por teclado.",
+    "sintoma": "Não consigo chegar ao controle usando o teclado",
+    "descricao_curta": "O controle funciona com mouse ou toque, mas não entra na navegação por teclado, impedindo o acesso à ação.",
     "categoria": "teclado",
     "componentes": [
       "botao",
-      "link"
+      "link",
+      "menu"
     ],
     "causas_provaveis": [
-      "Uso de <div> ou <span> como controle.",
-      "Uso indevido de tabindex=\"-1\".",
-      "Componente customizado sem evento de teclado."
+      "Uso de div, span, parágrafo ou outro elemento não interativo como controle.",
+      "Link sem atributo href.",
+      "Componente personalizado sem foco programático e sem comportamento equivalente ao elemento nativo."
     ],
     "solucao_minima": [
-      "Use <button> para ações.",
-      "Use <a href> para navegação.",
-      "Garanta acionamento por Enter e, quando aplicável, Espaço."
+      "Use button para ações e a com href para navegação.",
+      "Mantenha o controle na ordem natural de foco.",
+      "Se um componente personalizado for inevitável, implemente nome, função, estado, foco e interação por teclado.",
+      "Boa prática: Prefira HTML nativo.",
+      "Boa prática: Teste todos os fluxos com teclado antes da publicação."
     ],
     "validacao": [
-      "Navegue usando apenas Tab e Shift+Tab.",
-      "Acione os controles pelo teclado.",
-      "Confirme se a ordem do foco é previsível."
+      "Teclado: Percorra a interface com Tab e Shift+Tab.",
+      "Teclado: Confirme que o controle recebe foco e pode ser operado sem mouse.",
+      "Inspeção de código: Verifique se o elemento nativo corresponde à função executada."
     ],
-    "exemplo_codigo": "<button type=\"button\">Abrir filtros</button>\n\n<a href=\"/relatorios\">Ver relatórios</a>",
+    "exemplo_codigo": "<button type=\"button\" onclick=\"abrirMenu()\">Abrir menu</button>",
     "impacto": "alto",
     "responsaveis": [
       "dev",
@@ -31,127 +34,2124 @@
     ],
     "wcag": [
       "2.1.1",
+      "4.1.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "tab",
+      "teclado",
+      "mouse",
+      "foco",
+      "div clicável",
+      "link sem href"
+    ]
+  },
+  {
+    "id": "controle-nao-aciona-teclado",
+    "sintoma": "O controle recebe foco, mas não funciona pelo teclado",
+    "descricao_curta": "A pessoa chega ao elemento, mas Enter, Espaço ou as teclas esperadas não executam a ação disponível pelo mouse ou toque.",
+    "categoria": "teclado",
+    "componentes": [
+      "botao",
+      "link",
+      "menu",
+      "formulario"
+    ],
+    "causas_provaveis": [
+      "Evento implementado somente para clique ou ponteiro.",
+      "Componente personalizado sem tratamento de teclado.",
+      "Semântica informada não corresponde ao padrão de interação implementado."
+    ],
+    "solucao_minima": [
+      "Use controles nativos sempre que possível.",
+      "Garanta acionamento por Enter e, para botões e controles aplicáveis, por Espaço.",
+      "Implemente o padrão de teclado esperado para componentes compostos, como guias e menus.",
+      "Boa prática: Não crie um segundo fluxo simplificado: mantenha a mesma funcionalidade para todos os métodos de entrada.",
+      "Boa prática: Evite atalhos que dependam exclusivamente de uma tecla de caractere."
+    ],
+    "validacao": [
+      "Teclado: Acione cada controle sem mouse.",
+      "Teclado: Teste Enter, Espaço e as setas quando fizerem parte do padrão do componente.",
+      "Leitor de tela: Repita o teste com o leitor de tela ligado para detectar conflitos de eventos."
+    ],
+    "exemplo_codigo": "<button type=\"submit\">Enviar</button>",
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "2.1.1",
+      "4.1.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "enter",
+      "espaço",
+      "space",
+      "teclado",
+      "acionar",
+      "evento de clique"
+    ]
+  },
+  {
+    "id": "ordem-foco-incoerente",
+    "sintoma": "A ordem do foco não acompanha a sequência da interface",
+    "descricao_curta": "Ao navegar, o foco salta entre áreas distantes, passa pelo rodapé antes do conteúdo ou segue uma sequência diferente da leitura e da apresentação visual.",
+    "categoria": "teclado",
+    "componentes": [
+      "formulario",
+      "menu"
+    ],
+    "causas_provaveis": [
+      "Ordem do DOM diferente da ordem visual.",
+      "Valores positivos de tabindex usados para forçar uma sequência.",
+      "Componentes inseridos fora do ponto lógico da estrutura."
+    ],
+    "solucao_minima": [
+      "Organize o DOM na mesma sequência lógica do conteúdo.",
+      "Remova tabindex positivo.",
+      "Posicione diálogos, avisos e controles no ponto adequado do fluxo e gerencie o foco quando necessário.",
+      "Boa prática: Corrija a estrutura em vez de numerar manualmente a ordem de foco.",
+      "Boa prática: Valide o fluxo em diferentes larguras de tela."
+    ],
+    "validacao": [
+      "Teclado: Percorra toda a página com Tab e Shift+Tab.",
+      "Teclado: Compare a sequência do foco com a ordem visual e com a lógica da tarefa.",
+      "Inspeção de código: Procure valores de tabindex maiores que zero e divergências entre DOM e CSS."
+    ],
+    "exemplo_codigo": "<button>Primeiro</button>\n<button>Segundo</button>",
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "qa",
+      "ux"
+    ],
+    "wcag": [
+      "1.3.2",
       "2.4.3"
     ],
     "abnt_nbr": [],
     "keywords": [
-      "teclado",
-      "tab",
+      "ordem de tabulação",
+      "tabindex positivo",
+      "sequência",
+      "rodapé",
+      "dom"
+    ]
+  },
+  {
+    "id": "foco-duplicado",
+    "sintoma": "O mesmo controle recebe foco mais de uma vez",
+    "descricao_curta": "Uma única ação gera duas ou mais paradas de foco e pode ser anunciada repetidamente pelo leitor de tela.",
+    "categoria": "teclado",
+    "componentes": [
+      "botao",
+      "link",
+      "carrossel"
+    ],
+    "causas_provaveis": [
+      "Elemento interativo aninhado em outro elemento interativo.",
+      "Contêiner com tabindex envolvendo um link ou botão já focável.",
+      "Versões duplicadas do mesmo controle permanecem na árvore de acessibilidade."
+    ],
+    "solucao_minima": [
+      "Mantenha apenas um elemento interativo por ação.",
+      "Remova tabindex de contêineres sem função própria.",
+      "Retire duplicatas ocultas da ordem de foco e da árvore de acessibilidade.",
+      "Boa prática: Evite botão dentro de link ou link dentro de botão.",
+      "Boa prática: Faça o alvo clicável inteiro pertencer a um único controle."
+    ],
+    "validacao": [
+      "Teclado: Conte as paradas de foco em cada ação.",
+      "Teclado: Confirme que cada controle aparece uma única vez no fluxo.",
+      "Leitor de tela: Verifique se o nome e a função são anunciados apenas uma vez."
+    ],
+    "exemplo_codigo": "<a class=\"botao\" href=\"/detalhes\">Ver detalhes</a>",
+    "impacto": "medio",
+    "responsaveis": [
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "2.4.3",
+      "4.1.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "foco duas vezes",
+      "cacofonia",
+      "controle duplicado",
+      "elementos aninhados"
+    ]
+  },
+  {
+    "id": "elemento-sem-funcao-recebe-foco",
+    "sintoma": "O foco para em um elemento sem função",
+    "descricao_curta": "A navegação encontra espaços, textos, imagens decorativas ou itens anunciados como “em branco”, sem ação ou informação útil.",
+    "categoria": "teclado",
+    "componentes": [
+      "carrossel"
+    ],
+    "causas_provaveis": [
+      "Tabindex aplicado a elemento não interativo.",
+      "Espaçador ou contêiner exposto como controle.",
+      "Link vazio ou duplicata invisível."
+    ],
+    "solucao_minima": [
+      "Remova elementos sem função da ordem de foco.",
+      "Use foco apenas onde existe interação ou necessidade real de gerenciamento programático.",
+      "Elimine links vazios e controles duplicados.",
+      "Boa prática: Não use tabindex para tornar texto comum navegável por Tab.",
+      "Boa prática: Preserve a navegação de leitura do leitor de tela para conteúdo estático."
+    ],
+    "validacao": [
+      "Teclado: Percorra a interface e identifique paradas sem ação perceptível.",
+      "Leitor de tela: Confirme que não há anúncios “em branco”, controles sem nome ou espaçadores focáveis."
+    ],
+    "exemplo_codigo": "<div class=\"espaco\" aria-hidden=\"true\"></div>",
+    "impacto": "medio",
+    "responsaveis": [
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "2.4.3",
+      "4.1.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "em branco",
+      "tabindex desnecessário",
+      "espaçador",
+      "foco sem função"
+    ]
+  },
+  {
+    "id": "conteudo-oculto-recebe-foco",
+    "sintoma": "Itens ocultos continuam recebendo foco",
+    "descricao_curta": "Links, botões ou slides recolhidos e invisíveis permanecem na ordem de navegação.",
+    "categoria": "teclado",
+    "componentes": [
+      "menu",
+      "carrossel",
+      "modal"
+    ],
+    "causas_provaveis": [
+      "Conteúdo apenas deslocado para fora da tela ou tornado transparente.",
+      "Estado visual fechado sem atualização de hidden, inert ou foco dos descendentes.",
+      "Cópias desktop e móvel presentes simultaneamente na árvore de acessibilidade."
+    ],
+    "solucao_minima": [
+      "Quando o conteúdo estiver fechado, remova seus controles da ordem de foco e da árvore de acessibilidade.",
+      "Sincronize a visibilidade visual com o estado programático.",
+      "Exponha apenas a variante responsiva em uso.",
+      "Boa prática: Teste todos os estados: aberto, fechado, antes e depois do redimensionamento.",
+      "Boa prática: Não use apenas opacity: 0 ou posicionamento fora da tela para esconder controles."
+    ],
+    "validacao": [
+      "Teclado: Com o componente fechado, confirme que Tab não entra em seus descendentes.",
+      "Inspeção de código: Verifique se o estado fechado usa hidden, inert ou técnica equivalente compatível com o componente."
+    ],
+    "exemplo_codigo": "<div class=\"painel\" hidden><a href=\"/perfil\">Perfil</a></div>",
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "2.4.3",
+      "4.1.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "oculto",
+      "invisível",
       "foco",
-      "navegação",
-      "componente",
-      "mouse",
-      "botão",
-      "link"
+      "menu fechado",
+      "slide escondido",
+      "segundo plano"
     ]
   },
   {
     "id": "foco-visual-desaparece",
-    "sintoma": "O foco visual desaparece",
-    "descricao_curta": "Ao navegar com Tab, a pessoa não sabe qual elemento está ativo.",
+    "sintoma": "Não consigo ver qual elemento está com foco",
+    "descricao_curta": "Ao usar Tab, o elemento ativo não apresenta indicação visual perceptível.",
     "categoria": "teclado",
-    "componentes": [],
+    "componentes": [
+      "botao",
+      "link",
+      "formulario",
+      "menu"
+    ],
     "causas_provaveis": [
-      "Remoção de outline no CSS.",
-      "Indicador de foco com contraste insuficiente.",
-      "Foco enviado para área fora da tela."
+      "Outline removido sem substituição.",
+      "Estilo de foco aplicado somente a alguns componentes.",
+      "Indicador restrito ao hover do mouse."
     ],
     "solucao_minima": [
-      "Não remova outline sem alternativa equivalente.",
-      "Padronize foco para links, botões e campos.",
-      "Use contraste, espessura e afastamento suficientes."
+      "Mantenha um indicador visível em todo componente operável por teclado.",
+      "Use :focus-visible para diferenciar foco de teclado quando apropriado.",
+      "Cubra também estados e componentes personalizados.",
+      "Boa prática: Centralize o estilo em tokens ou componentes compartilhados.",
+      "Boa prática: Não dependa apenas de mudança sutil de cor."
     ],
     "validacao": [
-      "Percorra a página usando Tab.",
-      "Teste em fundos claros, escuros e imagens.",
-      "Confirme se todos os componentes têm foco visível."
+      "Teclado: Percorra todos os controles e confirme que o foco é sempre localizável.",
+      "Inspeção visual: Teste o indicador em fundos claros, escuros e sobre imagens."
     ],
-    "exemplo_codigo": "a:focus,\nbutton:focus,\ninput:focus {\n  outline: 3px solid #000;\n  outline-offset: 3px;\n}",
+    "exemplo_codigo": ":focus-visible {\n  outline: 3px solid #005fcc;\n  outline-offset: 3px;\n}",
     "impacto": "alto",
     "responsaveis": [
-      "dev"
+      "dev",
+      "qa",
+      "ux"
+    ],
+    "wcag": [
+      "2.4.7"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "outline",
+      "indicador de foco",
+      "tab",
+      "foco invisível"
+    ]
+  },
+  {
+    "id": "foco-visual-insuficiente",
+    "sintoma": "O foco existe, mas é fraco, cortado ou incompleto",
+    "descricao_curta": "O contorno tem pouco contraste, aparece somente em parte do controle ou se confunde com o fundo.",
+    "categoria": "teclado",
+    "componentes": [
+      "botao",
+      "link",
+      "carrossel",
+      "modal"
+    ],
+    "causas_provaveis": [
+      "Cor do foco muito próxima ao fundo.",
+      "Overflow corta o contorno.",
+      "Sublinhado ou sombra muito discreta usados como único indicador."
+    ],
+    "solucao_minima": [
+      "Aumente a espessura e o contraste do indicador.",
+      "Use outline-offset e evite recorte por overflow.",
+      "Garanta uma área contínua que identifique o controle inteiro.",
+      "Boa prática: Atenda ao nível AA de foco visível e, quando adotado, documente o objetivo AAA de aparência do foco.",
+      "Boa prática: Teste estados de foco, selecionado, erro e desabilitado separadamente."
+    ],
+    "validacao": [
+      "Teclado: Observe cada foco em todos os fundos da interface.",
+      "Medição de contraste: Meça o contraste do indicador em relação às cores adjacentes.",
+      "Redimensionamento e refluxo: Confirme que o foco não é cortado em zoom e larguras reduzidas."
+    ],
+    "exemplo_codigo": ":focus-visible {\n  outline: 3px solid #111;\n  outline-offset: 3px;\n}",
+    "impacto": "medio",
+    "responsaveis": [
+      "dev",
+      "qa",
+      "ux"
     ],
     "wcag": [
       "2.4.7",
+      "1.4.11",
+      "2.4.13"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "foco cortado",
+      "baixo contraste",
+      "perímetro",
+      "outline",
+      "2 pixels"
+    ]
+  },
+  {
+    "id": "foco-obscurecido",
+    "sintoma": "O elemento com foco fica escondido por outro conteúdo",
+    "descricao_curta": "Banners, menus, cabeçalhos fixos ou sobreposições cobrem parcial ou totalmente o componente que recebeu foco.",
+    "categoria": "teclado",
+    "componentes": [
+      "menu",
+      "modal"
+    ],
+    "causas_provaveis": [
+      "Camadas fixas sem compensação de rolagem.",
+      "Sobreposição aberta enquanto o foco permanece no conteúdo de fundo.",
+      "Rolagem automática posiciona o item atrás de um cabeçalho fixo."
+    ],
+    "solucao_minima": [
+      "Garanta que o item focado permaneça ao menos parcialmente visível.",
+      "Gerencie o foco de conteúdos modais e sobrepostos.",
+      "Ajuste scroll-margin, scroll-padding e espaçamentos de componentes fixos quando necessário.",
+      "Boa prática: Teste combinações de cabeçalho fixo, cookies, chat e modal.",
+      "Boa prática: Evite sobreposições simultâneas."
+    ],
+    "validacao": [
+      "Teclado: Percorra a interface com todas as barras, avisos e menus abertos.",
+      "Teclado: Confirme que o foco nunca fica totalmente oculto.",
+      "Redimensionamento e refluxo: Repita o teste em zoom de 200% e viewport estreita."
+    ],
+    "exemplo_codigo": null,
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "qa",
+      "ux"
+    ],
+    "wcag": [
       "2.4.11"
     ],
     "abnt_nbr": [],
     "keywords": [
-      "foco",
-      "visual",
-      "tab",
-      "outline",
-      "teclado",
-      "indicador"
+      "foco encoberto",
+      "overlay",
+      "sticky",
+      "cabeçalho fixo",
+      "sobreposição"
     ]
   },
   {
-    "id": "leitor-anuncia-so-botao",
-    "sintoma": "O leitor de tela anuncia apenas \"botão\"",
-    "descricao_curta": "O usuário não sabe qual ação aquele botão executa.",
-    "categoria": "leitor-de-tela",
+    "id": "atalho-bloco-ausente",
+    "sintoma": "Preciso atravessar blocos repetidos em todas as páginas",
+    "descricao_curta": "Não existe mecanismo para ignorar cabeçalho, navegação ou outros blocos que se repetem antes do conteúdo principal.",
+    "categoria": "teclado",
     "componentes": [
-      "botao"
+      "menu"
     ],
     "causas_provaveis": [
-      "Botão só com ícone.",
-      "SVG sem texto alternativo.",
-      "Falta de aria-label ou texto visível."
+      "Ausência de link de salto.",
+      "Regiões ou cabeçalhos não permitem navegação equivalente.",
+      "Aplicação de página longa sem mecanismo de acesso direto."
     ],
     "solucao_minima": [
-      "Adicione texto visível ou aria-label.",
-      "Oculte ícones decorativos.",
-      "Descreva a ação, não o ícone."
+      "Ofereça um link “Ir para o conteúdo principal” como primeiro controle.",
+      "Associe o link a um destino existente e único.",
+      "Mantenha regiões e cabeçalhos semanticamente identificados.",
+      "Boa prática: Mostre o link quando receber foco.",
+      "Boa prática: Inclua atalhos adicionais somente quando houver blocos relevantes a ignorar."
     ],
     "validacao": [
-      "Use leitor de tela.",
-      "Confira se a ação é clara.",
-      "Liste botões da página, se possível."
+      "Teclado: Pressione Tab ao entrar na página e verifique se o atalho aparece.",
+      "Teclado: Acione-o e confirme que a navegação prossegue no conteúdo principal.",
+      "Leitor de tela: Teste a navegação por regiões e cabeçalhos como mecanismos complementares."
     ],
-    "exemplo_codigo": "<button aria-label=\"Adicionar ao carrinho\">\n  <svg aria-hidden=\"true\">...</svg>\n</button>",
+    "exemplo_codigo": "<a class=\"skip-link\" href=\"#conteudo\">Ir para o conteúdo principal</a>\n<header>...</header>\n<main id=\"conteudo\">Conteúdo</main>",
+    "impacto": "medio",
+    "responsaveis": [
+      "dev",
+      "qa",
+      "ux"
+    ],
+    "wcag": [
+      "2.4.1"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "âncora",
+      "link de salto",
+      "pular conteúdo",
+      "ignorar blocos",
+      "skip link"
+    ]
+  },
+  {
+    "id": "atalho-bloco-nao-funciona",
+    "sintoma": "O atalho de navegação não chega ao destino",
+    "descricao_curta": "O link de salto recarrega a página, aponta para um identificador inexistente ou não posiciona a navegação no conteúdo anunciado.",
+    "categoria": "teclado",
+    "componentes": [
+      "link"
+    ],
+    "causas_provaveis": [
+      "Href não corresponde ao id do destino.",
+      "Destino removido da página ou repetido.",
+      "Foco não é reposicionado de forma utilizável após a ativação."
+    ],
+    "solucao_minima": [
+      "Faça href e id corresponderem exatamente.",
+      "Use um destino único e presente na página.",
+      "Confirme que, depois do salto, a próxima navegação parte do conteúdo esperado.",
+      "Boa prática: Não publique atalhos para regiões ausentes.",
+      "Boa prática: Teste o componente em todas as rotas e modelos de página."
+    ],
+    "validacao": [
+      "Teclado: Acione cada atalho e continue navegando com Tab.",
+      "Teclado: Verifique posição visual e sequência do foco.",
+      "Inspeção de código: Confirme a existência e a unicidade de cada id referenciado."
+    ],
+    "exemplo_codigo": "<a href=\"#principal\">Ir para o conteúdo</a>\n<main id=\"principal\">...</main>",
+    "impacto": "medio",
+    "responsaveis": [
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "2.4.1",
+      "2.4.3"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "âncora quebrada",
+      "skip link",
+      "href",
+      "id",
+      "recarrega página"
+    ]
+  },
+  {
+    "id": "modal-foco-perdido",
+    "sintoma": "A caixa de diálogo abre, mas o foco continua atrás dela",
+    "descricao_curta": "Uma janela aparece em primeiro plano, mas a navegação permanece no acionador ou em elementos encobertos.",
+    "categoria": "teclado",
+    "componentes": [
+      "modal"
+    ],
+    "causas_provaveis": [
+      "Foco não movido na abertura.",
+      "Diálogo sem semântica ou gerenciamento de foco.",
+      "Componente inserido apenas visualmente em primeiro plano."
+    ],
+    "solucao_minima": [
+      "Ao abrir, mova o foco para um ponto apropriado dentro do diálogo.",
+      "Informe nome e função de diálogo programaticamente.",
+      "Defina a posição inicial considerando o conteúdo e a ação esperada.",
+      "Boa prática: Use dialog nativo ou padrão de diálogo consolidado.",
+      "Boa prática: Evite abrir diálogos automaticamente sem necessidade."
+    ],
+    "validacao": [
+      "Teclado: Abra o diálogo com teclado e pressione Tab.",
+      "Teclado: Confirme que o primeiro foco útil está dentro da janela.",
+      "Leitor de tela: Verifique se o diálogo e seu título são anunciados na abertura."
+    ],
+    "exemplo_codigo": null,
     "impacto": "alto",
     "responsaveis": [
-      "dev"
+      "dev",
+      "qa",
+      "ux"
+    ],
+    "wcag": [
+      "2.4.3",
+      "4.1.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "modal",
+      "popup",
+      "foco inicial",
+      "segundo plano",
+      "janela"
+    ]
+  },
+  {
+    "id": "foco-escapa-dialogo",
+    "sintoma": "Consigo navegar para trás da caixa de diálogo aberta",
+    "descricao_curta": "Enquanto um conteúdo modal está aberto, Tab alcança controles da página de fundo.",
+    "categoria": "teclado",
+    "componentes": [
+      "modal"
+    ],
+    "causas_provaveis": [
+      "Ausência de contenção do foco.",
+      "Conteúdo de fundo permanece interativo.",
+      "Componente tratado como modal apenas no estilo visual."
+    ],
+    "solucao_minima": [
+      "Mantenha a sequência de Tab dentro do diálogo modal.",
+      "Torne o fundo inerte enquanto a janela estiver aberta.",
+      "Inclua todos os controles necessários, inclusive fechar, na ordem interna.",
+      "Boa prática: Não aplique contenção de foco em painéis que não sejam realmente modais.",
+      "Boa prática: Teste diálogos aninhados e mensagens de terceiros."
+    ],
+    "validacao": [
+      "Teclado: Com o diálogo aberto, percorra a sequência em ambos os sentidos.",
+      "Teclado: Confirme que nenhum controle de fundo recebe foco.",
+      "Inspeção de código: Verifique o estado modal e a inércia do conteúdo de fundo."
+    ],
+    "exemplo_codigo": null,
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "2.4.3",
+      "4.1.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "modal",
+      "foco preso",
+      "fundo",
+      "aria-modal",
+      "inert"
+    ]
+  },
+  {
+    "id": "foco-nao-retorna-acionador",
+    "sintoma": "Ao fechar uma janela, o foco se perde",
+    "descricao_curta": "Depois de fechar um diálogo, menu ou painel, o foco vai para o início da página, desaparece ou permanece em um elemento removido.",
+    "categoria": "teclado",
+    "componentes": [
+      "modal",
+      "menu"
+    ],
+    "causas_provaveis": [
+      "Acionador não armazenado antes da abertura.",
+      "Elemento de origem removido ou recriado.",
+      "Fechamento altera o DOM sem reposicionar o foco."
+    ],
+    "solucao_minima": [
+      "Devolva o foco ao controle que abriu o conteúdo.",
+      "Se o acionador não existir mais, use o próximo ponto lógico da tarefa.",
+      "Garanta que o destino do foco esteja visível e disponível.",
+      "Boa prática: Defina a política de retorno de foco no componente compartilhado.",
+      "Boa prática: Teste fechamento por botão, Escape e conclusão da ação."
+    ],
+    "validacao": [
+      "Teclado: Abra e feche o componente por todos os meios disponíveis.",
+      "Teclado: Confirme o retorno ao acionador ou a outro ponto lógico.",
+      "Leitor de tela: Verifique se o contexto retomado é anunciado claramente."
+    ],
+    "exemplo_codigo": null,
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "2.4.3"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "retorno do foco",
+      "fechar modal",
+      "acionador",
+      "escape"
+    ]
+  },
+  {
+    "id": "teclado-fica-preso",
+    "sintoma": "O foco entra em um componente e não consegue sair",
+    "descricao_curta": "A pessoa fica presa em um menu, janela ou widget e não consegue seguir ou retornar usando somente o teclado.",
+    "categoria": "teclado",
+    "componentes": [
+      "menu",
+      "modal"
+    ],
+    "causas_provaveis": [
+      "Interceptação de Tab, setas ou Escape sem rota de saída.",
+      "Botão de fechar inacessível.",
+      "Widget de terceiros sem mecanismo de abandono."
+    ],
+    "solucao_minima": [
+      "Permita sair pelo método padrão de navegação ou informe uma tecla de saída disponível.",
+      "Torne o botão de fechar acessível.",
+      "Não bloqueie Tab fora de um diálogo modal corretamente implementado.",
+      "Boa prática: Inclua o teste de armadilha em componentes de terceiros.",
+      "Boa prática: Não confunda contenção modal com bloqueio sem saída."
+    ],
+    "validacao": [
+      "Teclado: Entre no componente e tente sair para frente e para trás.",
+      "Teclado: Teste também Escape quando fizer parte do padrão.",
+      "Leitor de tela: Repita o fluxo com o leitor ligado."
+    ],
+    "exemplo_codigo": null,
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "2.1.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "armadilha de teclado",
+      "foco preso",
+      "não consegue sair",
+      "escape"
+    ]
+  },
+  {
+    "id": "troca-tela-foco-antigo",
+    "sintoma": "A tela muda, mas o foco permanece no conteúdo anterior",
+    "descricao_curta": "Após avançar no cadastro, abrir uma nova tela ou substituir uma área, a tecnologia assistiva continua no botão ou conteúdo que já não representa o estado atual.",
+    "categoria": "teclado",
+    "componentes": [],
+    "causas_provaveis": [
+      "Rota ou vista atualizada sem gerenciamento de foco.",
+      "Novo conteúdo não possui título ou ponto inicial programático.",
+      "Mudança depende apenas de atualização visual."
+    ],
+    "solucao_minima": [
+      "Mova o foco para o título ou primeiro ponto lógico da nova vista.",
+      "Anuncie a atualização quando ela não provocar uma mudança de foco apropriada.",
+      "Evite devolver o foco a elementos da tela anterior.",
+      "Boa prática: Defina uma estratégia única para foco em rotas e etapas.",
+      "Boa prática: Mantenha títulos claros para cada vista."
+    ],
+    "validacao": [
+      "Leitor de tela: Conclua cada etapa e confirme qual elemento é anunciado em seguida.",
+      "Dispositivo móvel: Teste a sequência com TalkBack e VoiceOver nas transições de tela."
+    ],
+    "exemplo_codigo": null,
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "qa",
+      "ux"
+    ],
+    "wcag": [
+      "2.4.3",
+      "4.1.3"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "troca de tela",
+      "spa",
+      "aplicativo",
+      "foco anterior",
+      "rota"
+    ]
+  },
+  {
+    "id": "guias-nao-operam-teclado",
+    "sintoma": "Não consigo trocar ou ler as guias pelo teclado",
+    "descricao_curta": "Uma interface visual de abas não oferece o padrão de foco, seleção e navegação necessário para acessar seus painéis.",
+    "categoria": "teclado",
+    "componentes": [
+      "menu"
+    ],
+    "causas_provaveis": [
+      "Itens de lista usados como abas sem semântica.",
+      "Troca disponível apenas por clique.",
+      "Painel ativo não associado à guia correspondente."
+    ],
+    "solucao_minima": [
+      "Implemente tablist, tab e tabpanel com associações corretas.",
+      "Use setas para navegar entre guias e mantenha uma única guia na ordem de Tab.",
+      "Atualize aria-selected e a visibilidade do painel.",
+      "Boa prática: Siga o padrão Tabs do WAI-ARIA Authoring Practices.",
+      "Boa prática: Não use a aparência de abas para simples links de navegação sem adaptar o padrão."
+    ],
+    "validacao": [
+      "Teclado: Entre no conjunto com Tab e alterne as guias com as setas.",
+      "Teclado: Confirme que o painel selecionado pode ser lido e alcançado.",
+      "Leitor de tela: Verifique nome, função, posição e estado selecionado de cada guia."
+    ],
+    "exemplo_codigo": null,
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "2.1.1",
+      "4.1.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "tabs",
+      "abas",
+      "aria-selected",
+      "tabpanel",
+      "setas"
+    ]
+  },
+  {
+    "id": "painel-abre-ao-foco",
+    "sintoma": "Um painel abre apenas porque recebeu foco",
+    "descricao_curta": "Ao passar com Tab por um item, um submenu, ajuda ou painel aparece sem solicitação e pode encobrir outros conteúdos.",
+    "categoria": "teclado",
+    "componentes": [
+      "menu",
+      "modal"
+    ],
+    "causas_provaveis": [
+      "Abertura ligada ao evento focus ou hover sem alternativa controlada.",
+      "Componente não oferece forma de dispensar ou manter o conteúdo.",
+      "Foco usado como confirmação de ação."
+    ],
+    "solucao_minima": [
+      "Exija uma ação explícita para mudanças de contexto.",
+      "Para conteúdo complementar em foco ou hover, torne-o dispensável, persistente e alcançável quando aplicável.",
+      "Use um botão com estado expandido para painéis interativos.",
+      "Boa prática: Separe foco de ativação.",
+      "Boa prática: Mantenha comportamento previsível entre mouse e teclado."
+    ],
+    "validacao": [
+      "Teclado: Passe pelo acionador sem ativá-lo e observe se ocorre mudança inesperada.",
+      "Teclado: Se o conteúdo aparecer, verifique como dispensá-lo e acessá-lo.",
+      "Inspeção visual: Confirme que o painel não cobre conteúdo necessário sem controle."
+    ],
+    "exemplo_codigo": "<button type=\"button\" aria-expanded=\"false\" aria-controls=\"opcoes\">Opções</button>",
+    "impacto": "medio",
+    "responsaveis": [
+      "dev",
+      "qa",
+      "ux"
+    ],
+    "wcag": [
+      "3.2.1",
+      "1.4.13"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "abre ao focar",
+      "hover",
+      "submenu automático",
+      "mudança de contexto"
+    ]
+  },
+  {
+    "id": "estado-expandido-nao-anunciado",
+    "sintoma": "Não sei se o menu ou painel está aberto ou fechado",
+    "descricao_curta": "O controle expande ou recolhe conteúdo, mas sua função, associação ou estado não é comunicado à tecnologia assistiva.",
+    "categoria": "leitor-de-tela",
+    "componentes": [
+      "menu",
+      "botao",
+      "modal"
+    ],
+    "causas_provaveis": [
+      "Ausência de aria-expanded.",
+      "Valor do estado não atualizado após a ação.",
+      "Acionador não associado ao painel controlado."
+    ],
+    "solucao_minima": [
+      "Use um botão com aria-expanded coerente com o estado.",
+      "Associe o painel por aria-controls quando isso ajudar a relação.",
+      "Atualize o valor em toda abertura e fechamento.",
+      "Boa prática: Mantenha o estado em uma única fonte de verdade.",
+      "Boa prática: Use texto do botão que identifique o conteúdo controlado."
+    ],
+    "validacao": [
+      "Leitor de tela: Foque o acionador antes e depois de ativá-lo.",
+      "Leitor de tela: Confirme o anúncio “expandido” e “recolhido”.",
+      "Inspeção de código: Compare aria-expanded com a visibilidade real do painel."
+    ],
+    "exemplo_codigo": "<button type=\"button\" aria-expanded=\"false\" aria-controls=\"categorias\">Categorias</button>\n<div id=\"categorias\" hidden>...</div>",
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "qa"
     ],
     "wcag": [
       "4.1.2"
     ],
     "abnt_nbr": [],
     "keywords": [
-      "botão",
-      "sem nome",
-      "leitor de tela",
-      "ícone acessível",
+      "aria-expanded",
+      "expandido",
+      "recolhido",
+      "disclosure",
+      "menu"
+    ]
+  },
+  {
+    "id": "estado-selecionado-nao-anunciado",
+    "sintoma": "A seleção muda visualmente, mas não é anunciada",
+    "descricao_curta": "Checkboxes, opções, guias, filtros ou indicadores de slide alteram a aparência sem informar qual item está marcado, selecionado ou atual.",
+    "categoria": "leitor-de-tela",
+    "componentes": [
+      "formulario",
+      "menu",
+      "carrossel"
+    ],
+    "causas_provaveis": [
+      "Estado representado apenas por classe CSS.",
+      "ARIA selecionado, pressionado ou atual ausente ou desatualizado.",
+      "Controle personalizado não expõe valor."
+    ],
+    "solucao_minima": [
+      "Prefira controles nativos de seleção.",
+      "Em componentes personalizados, exponha e atualize o estado adequado, como aria-selected, aria-checked, aria-pressed ou aria-current.",
+      "Mantenha o estado visual e programático sincronizados.",
+      "Boa prática: Escolha a propriedade correspondente ao padrão do componente.",
+      "Boa prática: Não use apenas a palavra “ativo” no texto quando existe semântica nativa."
+    ],
+    "validacao": [
+      "Leitor de tela: Altere cada opção e confirme o anúncio do novo estado.",
+      "Inspeção visual: Compare o item anunciado com o destaque visual atual.",
+      "Inspeção de código: Inspecione a propriedade de estado na árvore de acessibilidade."
+    ],
+    "exemplo_codigo": "<label><input type=\"checkbox\" checked> Receber avisos</label>",
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "1.3.1",
+      "4.1.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "selecionado",
+      "marcado",
+      "aria-selected",
+      "aria-checked",
+      "estado atual"
+    ]
+  },
+  {
+    "id": "estado-indisponivel-nao-anunciado",
+    "sintoma": "O controle parece indisponível, mas isso não é informado",
+    "descricao_curta": "O estado desabilitado é mostrado apenas visualmente ou com uma palavra ambígua, sem valor programático compreensível.",
+    "categoria": "leitor-de-tela",
+    "componentes": [
+      "botao",
+      "formulario"
+    ],
+    "causas_provaveis": [
+      "Desabilitação feita somente por cor ou classe CSS.",
+      "Uso de texto genérico para representar indisponibilidade.",
+      "aria-disabled ausente em componente personalizado."
+    ],
+    "solucao_minima": [
+      "Use disabled em controles nativos.",
+      "Use aria-disabled e impeça a ação quando o controle personalizado precisar permanecer focável.",
+      "Explique o motivo quando necessário para concluir a tarefa.",
+      "Boa prática: Não esconda informações necessárias para habilitar o controle.",
+      "Boa prática: Mantenha contraste suficiente mesmo no estado desabilitado quando o controle precisar ser percebido."
+    ],
+    "validacao": [
+      "Leitor de tela: Foque o controle e confirme o anúncio do estado indisponível.",
+      "Teclado: Verifique que o controle não executa a ação enquanto estiver desabilitado."
+    ],
+    "exemplo_codigo": "<button type=\"button\" disabled>Continuar</button>",
+    "impacto": "medio",
+    "responsaveis": [
+      "dev",
+      "qa",
+      "ux"
+    ],
+    "wcag": [
+      "1.3.1",
+      "4.1.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "desabilitado",
+      "indisponível",
+      "aria-disabled",
+      "escurecido"
+    ]
+  },
+  {
+    "id": "mouse-teclado-resultados-diferentes",
+    "sintoma": "A mesma ação se comporta diferente com mouse e teclado",
+    "descricao_curta": "Com o mouse, o controle expande opções; com o teclado, redireciona imediatamente, não abre o conteúdo ou executa outra ação.",
+    "categoria": "teclado",
+    "componentes": [
+      "menu",
+      "link",
+      "botao"
+    ],
+    "causas_provaveis": [
+      "Eventos diferentes para clique, ponteiro e teclado.",
+      "Um único elemento acumula navegação e expansão sem padrão claro.",
+      "Fallback de teclado não acompanha o comportamento visual."
+    ],
+    "solucao_minima": [
+      "Defina uma função única e previsível para cada controle.",
+      "Separe expansão e navegação em controles distintos quando ambas forem necessárias.",
+      "Teste equivalência funcional com todos os métodos de entrada.",
+      "Boa prática: Não dependa de hover para revelar ações essenciais.",
+      "Boa prática: Use padrões conhecidos de disclosure e navegação."
+    ],
+    "validacao": [
+      "Teclado: Execute a ação por teclado e registre o resultado.",
+      "Inspeção visual: Repita com mouse ou toque e compare estado, destino e conteúdo apresentado."
+    ],
+    "exemplo_codigo": null,
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "qa",
+      "ux"
+    ],
+    "wcag": [
+      "2.1.1",
+      "3.2.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "mouse",
+      "teclado",
+      "comportamento diferente",
+      "hover",
+      "redireciona"
+    ]
+  },
+  {
+    "id": "foco-provoca-mudanca-contexto",
+    "sintoma": "A interface muda apenas quando um elemento recebe foco",
+    "descricao_curta": "Chegar a um campo ou controle já abre uma nova janela, troca a tela ou envia a pessoa a outro contexto.",
+    "categoria": "teclado",
+    "componentes": [
+      "formulario",
+      "menu"
+    ],
+    "causas_provaveis": [
+      "Navegação ligada a focus ou blur.",
+      "Seleção tratada como confirmação imediata sem aviso.",
+      "Componente interpreta exploração como ativação."
+    ],
+    "solucao_minima": [
+      "Não provoque mudança de contexto somente pelo foco.",
+      "Solicite confirmação explícita com botão ou ação equivalente.",
+      "Se uma mudança por entrada for necessária, informe o comportamento antes.",
+      "Boa prática: Diferencie exploração, seleção e confirmação.",
+      "Boa prática: Evite envio automático ao sair de um campo."
+    ],
+    "validacao": [
+      "Teclado: Navegue por todos os campos sem ativá-los e observe mudanças.",
+      "Leitor de tela: Explore as opções e confirme que a leitura não dispara navegação."
+    ],
+    "exemplo_codigo": "<a href=\"/cadastro\">Iniciar cadastro</a>",
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "qa",
+      "ux"
+    ],
+    "wcag": [
+      "3.2.1"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "onfocus",
+      "mudança de contexto",
+      "redirecionamento",
+      "foco"
+    ]
+  },
+  {
+    "id": "leitor-anuncia-so-botao",
+    "sintoma": "O leitor de tela anuncia apenas o tipo do controle",
+    "descricao_curta": "Botões com ícone, links vazios e outros controles são anunciados apenas como “botão”, “link” ou “em branco”.",
+    "categoria": "leitor-de-tela",
+    "componentes": [
+      "botao",
+      "link",
+      "formulario"
+    ],
+    "causas_provaveis": [
+      "Controle sem texto visível nem nome acessível.",
+      "Ícone ou SVG usado como único conteúdo sem alternativa.",
+      "Texto do controle ocultado também da árvore de acessibilidade."
+    ],
+    "solucao_minima": [
+      "Forneça um nome que descreva a ação ou o destino.",
+      "Prefira texto visível; quando o design exigir apenas ícone, ofereça nome acessível equivalente.",
+      "Oculte do leitor somente os ícones decorativos internos.",
+      "Boa prática: Descreva a ação, não a aparência do ícone.",
+      "Boa prática: Evite rótulos vagos como “clicável”, “olho” ou “ok” quando não explicam a função."
+    ],
+    "validacao": [
+      "Leitor de tela: Percorra a lista de botões e links e confirme que cada nome é suficiente fora do contexto visual.",
+      "Inspeção de código: Inspecione o nome acessível calculado de cada controle."
+    ],
+    "exemplo_codigo": "<button type=\"button\" aria-label=\"Exibir senha\"><svg aria-hidden=\"true\">...</svg></button>",
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "conteudo",
+      "qa"
+    ],
+    "wcag": [
+      "1.1.1",
+      "4.1.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "botão sem texto",
+      "link vazio",
+      "em branco",
+      "ícone",
+      "nome acessível"
+    ]
+  },
+  {
+    "id": "nome-acessivel-diverge-texto",
+    "sintoma": "O leitor de tela anuncia um nome diferente do texto visível",
+    "descricao_curta": "O rótulo programático substitui ou contradiz o texto mostrado, fazendo a mesma ação parecer ter nomes diferentes.",
+    "categoria": "leitor-de-tela",
+    "componentes": [
+      "botao",
+      "link",
+      "formulario"
+    ],
+    "causas_provaveis": [
+      "Aria-label copiado de outro componente.",
+      "Nome acessível desatualizado após mudança do texto visível.",
+      "Aria-label usado para acrescentar contexto, mas sobrepondo o conteúdo do elemento."
+    ],
+    "solucao_minima": [
+      "Faça o nome acessível conter o texto visível na mesma ordem.",
+      "Remova rótulos ARIA redundantes quando o texto já nomeia o controle.",
+      "Inclua contexto adicional sem substituir a parte visível do nome.",
+      "Boa prática: Mantenha uma única fonte de texto sempre que possível.",
+      "Boa prática: Inclua testes de regressão para rótulos reutilizados em cards e menus."
+    ],
+    "validacao": [
+      "Leitor de tela: Compare o anúncio com o texto visível de cada controle.",
+      "Inspeção de código: Verifique a origem do nome acessível e possíveis sobrescritas por ARIA."
+    ],
+    "exemplo_codigo": "<a href=\"/ferias\">Colônia de férias</a>",
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "conteudo",
+      "qa"
+    ],
+    "wcag": [
+      "2.5.3",
+      "4.1.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "aria-label incorreto",
+      "texto diferente",
+      "rótulo visível",
+      "label in name"
+    ]
+  },
+  {
+    "id": "anuncio-redundante",
+    "sintoma": "O leitor de tela repete o mesmo nome ou função",
+    "descricao_curta": "A mesma informação é lida duas ou mais vezes, gerando cacofonia e aumentando o esforço de navegação.",
+    "categoria": "leitor-de-tela",
+    "componentes": [
+      "link",
+      "botao",
+      "imagem"
+    ],
+    "causas_provaveis": [
+      "Role duplicado no contêiner e no elemento nativo.",
+      "Title, aria-label, texto visível e alternativa da imagem repetem o mesmo conteúdo.",
+      "Imagem dentro de link repete o nome do próprio link sem acrescentar informação."
+    ],
+    "solucao_minima": [
+      "Remova semântica e nomes duplicados.",
+      "Deixe o elemento nativo fornecer a função.",
+      "Use alternativa vazia em imagem decorativa quando o link já possui texto suficiente.",
+      "Boa prática: Cada parte da composição deve acrescentar informação útil.",
+      "Boa prática: Evite anunciar a palavra “link” ou “botão” no próprio texto do controle."
+    ],
+    "validacao": [
+      "Leitor de tela: Ouça cada componente no fluxo e nas listas de links e botões.",
+      "Inspeção de código: Procure roles, titles e rótulos repetidos na mesma composição."
+    ],
+    "exemplo_codigo": "<a href=\"/pedidos\">Pedidos</a>",
+    "impacto": "medio",
+    "responsaveis": [
+      "dev",
+      "conteudo",
+      "qa"
+    ],
+    "wcag": [
+      "1.3.1",
+      "4.1.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "cacofonia",
+      "repetição",
+      "role duplicado",
+      "title",
       "aria-label"
     ]
   },
   {
+    "id": "funcao-semantica-inadequada",
+    "sintoma": "O componente é anunciado com uma função diferente da que executa",
+    "descricao_curta": "Um link executa uma ação local, um botão navega para outra página ou um controle recebe uma função ARIA incompatível.",
+    "categoria": "leitor-de-tela",
+    "componentes": [
+      "botao",
+      "link",
+      "menu"
+    ],
+    "causas_provaveis": [
+      "Escolha do elemento pela aparência, não pelo comportamento.",
+      "Role usado para corrigir visualmente uma implementação genérica.",
+      "Componente alterou de função sem atualização semântica."
+    ],
+    "solucao_minima": [
+      "Use link para navegação e botão para ações.",
+      "Escolha a função ARIA somente quando não houver elemento nativo apropriado.",
+      "Alinhe nome, função, estado e comportamento.",
+      "Boa prática: Estilize o elemento correto em vez de trocar sua semântica.",
+      "Boa prática: Não coloque elementos interativos dentro de outros."
+    ],
+    "validacao": [
+      "Leitor de tela: Compare a função anunciada com o resultado da ativação.",
+      "Teclado: Confirme que o padrão de teclas corresponde ao tipo de controle.",
+      "Inspeção de código: Inspecione elemento nativo e role calculado."
+    ],
+    "exemplo_codigo": "<button type=\"button\" onclick=\"aceitarCookies()\">Aceitar</button>",
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "qa",
+      "ux"
+    ],
+    "wcag": [
+      "4.1.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "semântica",
+      "role",
+      "link como botão",
+      "botão como link",
+      "função"
+    ]
+  },
+  {
+    "id": "link-sem-proposito",
+    "sintoma": "O texto do link não explica para onde ele leva",
+    "descricao_curta": "Links vazios, genéricos ou repetidos, como “saiba mais” e “clique aqui”, não permitem reconhecer o destino no contexto disponível.",
+    "categoria": "leitor-de-tela",
+    "componentes": [
+      "link"
+    ],
+    "causas_provaveis": [
+      "Texto baseado na ação visual, sem indicar assunto ou destino.",
+      "Vários links iguais apontam para páginas diferentes.",
+      "Único nome vem de imagem ou atributo que não descreve a navegação."
+    ],
+    "solucao_minima": [
+      "Nomeie o destino ou a finalidade do link.",
+      "Inclua no próprio link o contexto necessário, ainda que parte fique visualmente oculta.",
+      "Diferencie links iguais que levam a conteúdos diferentes.",
+      "Boa prática: Evite depender do atributo title.",
+      "Boa prática: Use linguagem curta e específica."
+    ],
+    "validacao": [
+      "Leitor de tela: Abra a lista de links e verifique se cada item continua compreensível.",
+      "Inspeção de código: Confirme que links não estão vazios e possuem contexto programaticamente associado."
+    ],
+    "exemplo_codigo": "<a href=\"/relatorio\">Leia o relatório de acessibilidade</a>",
+    "impacto": "medio",
+    "responsaveis": [
+      "conteudo",
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "2.4.4"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "saiba mais",
+      "clique aqui",
+      "veja mais",
+      "link vazio",
+      "destino"
+    ]
+  },
+  {
+    "id": "imagem-link-sem-destino",
+    "sintoma": "A imagem é um link, mas só sua aparência é descrita",
+    "descricao_curta": "O nome do link descreve a fotografia ou o banner, mas não informa qual página, produto ou ação será aberta.",
+    "categoria": "leitor-de-tela",
+    "componentes": [
+      "imagem",
+      "link",
+      "carrossel"
+    ],
+    "causas_provaveis": [
+      "Texto alternativo usado sem considerar a função de link.",
+      "Link sem texto além da imagem.",
+      "Banner tem conteúdo visual e destino, mas nenhum deles é descrito de forma suficiente."
+    ],
+    "solucao_minima": [
+      "Dê ao link um nome que comunique sua finalidade.",
+      "Descreva a imagem somente na medida necessária ao contexto.",
+      "Quando imagem e texto visível formarem um único link, evite repetição.",
+      "Boa prática: Priorize a finalidade funcional no nome do link.",
+      "Boa prática: Não use nomes de arquivo como alternativa."
+    ],
+    "validacao": [
+      "Leitor de tela: Liste os links e confirme que o destino é reconhecível.",
+      "Inspeção de código: Verifique como a alternativa da imagem participa do nome do link."
+    ],
+    "exemplo_codigo": "<a href=\"/ofertas\"><img src=\"banner.jpg\" alt=\"Confira as ofertas da semana\"></a>",
+    "impacto": "alto",
+    "responsaveis": [
+      "conteudo",
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "1.1.1",
+      "2.4.4"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "banner clicável",
+      "imagem funcional",
+      "link com imagem",
+      "destino"
+    ]
+  },
+  {
+    "id": "elemento-interativo-oculto-da-tecnologia-assistiva",
+    "sintoma": "O controle visível é ignorado pelo leitor de tela",
+    "descricao_curta": "Um item disponível visualmente não aparece na árvore de acessibilidade ou é anunciado sem o conteúdo necessário.",
+    "categoria": "leitor-de-tela",
+    "componentes": [
+      "botao",
+      "link",
+      "menu",
+      "carrossel"
+    ],
+    "causas_provaveis": [
+      "Aria-hidden=\"true\" aplicado ao controle ou a um ancestral.",
+      "Display none usado na versão que deveria estar ativa.",
+      "Plugin de acessibilidade remove semântica ou conteúdo relevante."
+    ],
+    "solucao_minima": [
+      "Não aplique aria-hidden a elementos focáveis ou necessários para a tarefa.",
+      "Sincronize a variante visual ativa com a árvore de acessibilidade.",
+      "Revise efeitos de scripts e plugins sobre a semântica original.",
+      "Boa prática: Oculte apenas conteúdo realmente irrelevante ou duplicado.",
+      "Boa prática: Teste antes e depois da ativação de plugins."
+    ],
+    "validacao": [
+      "Leitor de tela: Compare todos os controles visíveis com os elementos alcançados pela tecnologia assistiva.",
+      "Inspeção de código: Inspecione aria-hidden, hidden, display e a árvore de acessibilidade."
+    ],
+    "exemplo_codigo": "<button type=\"button\">Adicionar ao carrinho</button>",
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "1.3.1",
+      "4.1.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "aria-hidden",
+      "ignorado",
+      "invisível para leitor",
+      "árvore de acessibilidade"
+    ]
+  },
+  {
+    "id": "cabecalhos-estrutura-incoerente",
+    "sintoma": "Os cabeçalhos não representam a organização do conteúdo",
+    "descricao_curta": "Títulos visuais não são cabeçalhos, níveis são escolhidos pela aparência ou a hierarquia não reflete seções e subseções.",
+    "categoria": "leitor-de-tela",
+    "componentes": [],
+    "causas_provaveis": [
+      "Uso de estilos visuais no lugar de h1 a h6.",
+      "Níveis escolhidos pelo tamanho da fonte.",
+      "Cabeçalhos aplicados a itens que não iniciam uma seção."
+    ],
+    "solucao_minima": [
+      "Marque os títulos reais como cabeçalhos.",
+      "Escolha níveis conforme a hierarquia do conteúdo, não a aparência.",
+      "Garanta que cabeçalhos descrevam o tema da página e de suas seções.",
+      "Boa prática: Uma página pode ter mais de um h1 quando a estrutura justificar; o essencial é a hierarquia transmitir relações.",
+      "Boa prática: Não torne logotipo um cabeçalho apenas para criar um título."
+    ],
+    "validacao": [
+      "Leitor de tela: Liste os cabeçalhos e verifique se o sumário resultante representa a página.",
+      "Inspeção de código: Inspecione a sequência e a relação estrutural entre os níveis."
+    ],
+    "exemplo_codigo": "<h2>Serviços</h2>\n<h3>Agendamento</h3>",
+    "impacto": "medio",
+    "responsaveis": [
+      "conteudo",
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "1.3.1",
+      "2.4.6"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "h1",
+      "h2",
+      "hierarquia",
+      "títulos",
+      "cabeçalhos"
+    ]
+  },
+  {
+    "id": "cabecalho-vazio",
+    "sintoma": "Um cabeçalho vazio ou invisível aparece na navegação",
+    "descricao_curta": "A lista de cabeçalhos contém itens sem texto, duplicados ou usados apenas para espaçamento e apresentação.",
+    "categoria": "leitor-de-tela",
+    "componentes": [],
+    "causas_provaveis": [
+      "Elemento de cabeçalho criado sem conteúdo.",
+      "Título duplicado para versões responsivas.",
+      "Cabeçalho inserido apenas para obter estilo visual."
+    ],
+    "solucao_minima": [
+      "Remova cabeçalhos vazios e decorativos.",
+      "Exponha somente uma versão do título.",
+      "Use CSS para aparência e espaçamento.",
+      "Boa prática: Cada cabeçalho deve introduzir conteúdo relacionado.",
+      "Boa prática: Não force foco de Tab em cabeçalhos."
+    ],
+    "validacao": [
+      "Leitor de tela: Abra a lista de cabeçalhos e verifique se todos têm nome e função estrutural.",
+      "Inspeção de código: Procure h1 a h6 vazios, ocultos visualmente sem propósito ou duplicados."
+    ],
+    "exemplo_codigo": "<h2>Resultados da busca</h2>",
+    "impacto": "medio",
+    "responsaveis": [
+      "dev",
+      "conteudo",
+      "qa"
+    ],
+    "wcag": [
+      "1.3.1",
+      "2.4.6"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "cabeçalho vazio",
+      "título invisível",
+      "heading blank",
+      "h2 vazio"
+    ]
+  },
+  {
+    "id": "regioes-nao-identificadas",
+    "sintoma": "Não consigo navegar pelas regiões principais da página",
+    "descricao_curta": "Cabeçalho, navegação, conteúdo principal e rodapé não são reconhecidos como regiões pela tecnologia assistiva.",
+    "categoria": "leitor-de-tela",
+    "componentes": [],
+    "causas_provaveis": [
+      "Estrutura composta somente por divs genéricas.",
+      "Ausência de main ou de regiões equivalentes.",
+      "Vários blocos de navegação sem nomes que os diferenciem."
+    ],
+    "solucao_minima": [
+      "Use header, nav, main e footer conforme a função real do conteúdo.",
+      "Garanta um conteúdo principal identificável.",
+      "Nomeie regiões repetidas quando necessário para distingui-las.",
+      "Boa prática: Não crie regiões vazias.",
+      "Boa prática: Combine regiões com cabeçalhos e link de salto quando houver blocos repetidos."
+    ],
+    "validacao": [
+      "Leitor de tela: Liste as regiões e tente chegar diretamente ao conteúdo principal.",
+      "Inspeção de código: Verifique landmarks, nomes e quantidade de regiões principais."
+    ],
+    "exemplo_codigo": "<header>...</header>\n<main>...</main>\n<footer>...</footer>",
+    "impacto": "medio",
+    "responsaveis": [
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "1.3.1",
+      "2.4.1"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "landmark",
+      "main",
+      "header",
+      "footer",
+      "região"
+    ]
+  },
+  {
+    "id": "regiao-nao-corresponde-conteudo",
+    "sintoma": "A região existe no código, mas não contém o conteúdo esperado",
+    "descricao_curta": "Main, header ou footer são anunciados, porém estão vazios ou envolvem elementos que não correspondem à região visual.",
+    "categoria": "leitor-de-tela",
+    "componentes": [],
+    "causas_provaveis": [
+      "Tags semânticas adicionadas sem reorganizar o DOM.",
+      "Conteúdo renderizado fora do contêiner da região.",
+      "Componente visual e estrutura programática evoluíram separadamente."
+    ],
+    "solucao_minima": [
+      "Envolva cada conteúdo na região que realmente representa sua função.",
+      "Remova landmarks vazios.",
+      "Revise a estrutura depois de mudanças de template e responsividade.",
+      "Boa prática: Use landmarks como estrutura, não como etiquetas isoladas.",
+      "Boa prática: Mantenha somente um main por página."
+    ],
+    "validacao": [
+      "Leitor de tela: Navegue por regiões e confirme qual conteúdo é lido dentro de cada uma.",
+      "Inspeção de código: Compare os limites das tags semânticas com a interface apresentada."
+    ],
+    "exemplo_codigo": null,
+    "impacto": "medio",
+    "responsaveis": [
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "1.3.1"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "landmark vazio",
+      "main incorreto",
+      "região sem conteúdo",
+      "semântica"
+    ]
+  },
+  {
+    "id": "ordem-leitura-incoerente",
+    "sintoma": "O leitor de tela apresenta o conteúdo em uma ordem confusa",
+    "descricao_curta": "A sequência programática separa rótulos, valores e ações relacionadas ou apresenta blocos em ordem diferente do sentido visual.",
+    "categoria": "leitor-de-tela",
+    "componentes": [
+      "formulario"
+    ],
+    "causas_provaveis": [
+      "CSS reposiciona elementos sem alterar o DOM.",
+      "Conteúdos relacionados estão em contêineres distantes.",
+      "Componentes móveis expõem nome, estado e controle em paradas separadas e fora de ordem."
+    ],
+    "solucao_minima": [
+      "Organize o DOM na ordem necessária para compreender e operar a interface.",
+      "Agrupe informações relacionadas.",
+      "Não use posicionamento visual para criar uma sequência diferente da programática.",
+      "Boa prática: Teste sem CSS para revelar a sequência estrutural.",
+      "Boa prática: Valide cards, formulários e seletores como unidades de informação."
+    ],
+    "validacao": [
+      "Leitor de tela: Leia a página de forma contínua e verifique se cada relação é compreensível.",
+      "Inspeção de código: Compare ordem do DOM, ordem visual e árvore de acessibilidade."
+    ],
+    "exemplo_codigo": null,
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "qa",
+      "ux"
+    ],
+    "wcag": [
+      "1.3.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "ordem de leitura",
+      "sequência significativa",
+      "dom",
+      "conteúdo fragmentado"
+    ]
+  },
+  {
+    "id": "lista-sem-semantica",
+    "sintoma": "Um conjunto de itens não é reconhecido como lista",
+    "descricao_curta": "Itens visualmente agrupados não informam que pertencem a uma coleção, ou elementos de lista são usados como controles sem a função correta.",
+    "categoria": "leitor-de-tela",
+    "componentes": [
+      "menu"
+    ],
+    "causas_provaveis": [
+      "Sequência criada com divs e espaçamento.",
+      "Listas removidas pela biblioteca de componentes.",
+      "Li usado como botão ou guia sem semântica e interação correspondentes."
+    ],
+    "solucao_minima": [
+      "Use ul, ol e li para coleções quando a relação de lista for significativa.",
+      "Use controles adequados dentro dos itens.",
+      "Não aplique função interativa ao item de lista sem implementar o padrão completo.",
+      "Boa prática: Não force lista onde a relação não acrescenta significado.",
+      "Boa prática: Mantenha a navegação do componente distinta da estrutura de lista."
+    ],
+    "validacao": [
+      "Leitor de tela: Confirme o anúncio da lista e da quantidade de itens quando disponível.",
+      "Inspeção de código: Verifique a relação entre contêiner e itens e eventuais roles conflitantes."
+    ],
+    "exemplo_codigo": "<ul>\n  <li>Notícia 1</li>\n  <li>Notícia 2</li>\n</ul>",
+    "impacto": "medio",
+    "responsaveis": [
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "1.3.1"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "lista",
+      "ul",
+      "ol",
+      "li",
+      "coleção",
+      "quantidade de itens"
+    ]
+  },
+  {
+    "id": "tabela-sem-relacoes",
+    "sintoma": "A tabela não informa a relação entre títulos e dados",
+    "descricao_curta": "Ao navegar pelas células, não é possível saber a qual coluna ou linha cada valor pertence.",
+    "categoria": "leitor-de-tela",
+    "componentes": [
+      "tabela"
+    ],
+    "causas_provaveis": [
+      "Cabeçalhos criados com td ou estilos visuais.",
+      "Th sem escopo ou associação suficiente para tabela complexa.",
+      "Estrutura tabular construída com divs."
+    ],
+    "solucao_minima": [
+      "Use table para dados tabulares e th para cabeçalhos.",
+      "Associe cabeçalhos e células com scope ou ids/headers conforme a complexidade.",
+      "Inclua caption quando o contexto não identificar adequadamente a tabela.",
+      "Boa prática: Evite tabelas para layout.",
+      "Boa prática: Mantenha títulos curtos e dados compreensíveis fora da apresentação visual."
+    ],
+    "validacao": [
+      "Leitor de tela: Navegue célula a célula e confirme o anúncio dos cabeçalhos correspondentes.",
+      "Inspeção de código: Inspecione table, caption, th, scope e relações de tabelas complexas."
+    ],
+    "exemplo_codigo": "<table>\n  <caption>Resultados</caption>\n  <tr><th scope=\"col\">Nome</th><th scope=\"col\">Nota</th></tr>\n  <tr><td>Ana</td><td>8</td></tr>\n</table>",
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "conteudo",
+      "qa"
+    ],
+    "wcag": [
+      "1.3.1"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "tabela",
+      "th",
+      "scope",
+      "caption",
+      "cabeçalho de coluna"
+    ]
+  },
+  {
+    "id": "imagem-sem-descricao",
+    "sintoma": "Uma imagem importante não possui alternativa textual",
+    "descricao_curta": "A tecnologia assistiva ignora a imagem ou anuncia apenas o arquivo, embora ela comunique informação necessária.",
+    "categoria": "visual",
+    "componentes": [
+      "imagem"
+    ],
+    "causas_provaveis": [
+      "Atributo alt ausente.",
+      "Imagem adicionada por componente que não permite preencher a alternativa.",
+      "Informação visual tratada equivocadamente como decoração."
+    ],
+    "solucao_minima": [
+      "Forneça alternativa que cumpra a mesma finalidade da imagem.",
+      "Transcreva texto essencial presente no conteúdo visual.",
+      "Para imagem funcional, descreva a ação ou destino.",
+      "Boa prática: Escreva alternativas conforme o contexto, não como inventário visual.",
+      "Boa prática: Não comece automaticamente por “imagem de”."
+    ],
+    "validacao": [
+      "Leitor de tela: Verifique se a informação continua disponível sem enxergar a imagem.",
+      "Inspeção de código: Confirme a presença e o valor adequado de alt ou nome equivalente."
+    ],
+    "exemplo_codigo": "<img src=\"campanha-setembro.png\" alt=\"Inscrições abertas até 30 de setembro\">",
+    "impacto": "alto",
+    "responsaveis": [
+      "conteudo",
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "1.1.1"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "alt ausente",
+      "texto alternativo",
+      "imagem informativa",
+      "nome de arquivo"
+    ]
+  },
+  {
+    "id": "alternativa-imagem-inadequada",
+    "sintoma": "O texto alternativo não corresponde à imagem",
+    "descricao_curta": "A descrição é genérica, incorreta, excessiva ou repete uma legenda sem transmitir a informação visual relevante.",
+    "categoria": "visual",
+    "componentes": [
+      "imagem",
+      "carrossel"
+    ],
+    "causas_provaveis": [
+      "Alternativa copiada entre imagens.",
+      "Uso de nome de arquivo, marca ou “imagem do banner”.",
+      "Descrição escrita sem considerar função e contexto."
+    ],
+    "solucao_minima": [
+      "Reescreva a alternativa a partir da finalidade da imagem naquele ponto.",
+      "Inclua texto visual e informação necessária para compreender o conteúdo.",
+      "Evite detalhes irrelevantes e repetição do texto adjacente.",
+      "Boa prática: Faça revisão editorial das alternativas.",
+      "Boa prática: Use alternativa vazia quando a imagem for realmente decorativa."
+    ],
+    "validacao": [
+      "Leitor de tela: Compare cada anúncio com a imagem e com o texto próximo.",
+      "Inspeção visual: Confirme que nenhuma informação essencial ficou restrita ao visual."
+    ],
+    "exemplo_codigo": "<img src=\"evento.jpg\" alt=\"Encontro de acessibilidade em 18 de outubro, às 14h\">",
+    "impacto": "alto",
+    "responsaveis": [
+      "conteudo",
+      "qa"
+    ],
+    "wcag": [
+      "1.1.1"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "alt genérico",
+      "descrição incorreta",
+      "banner",
+      "logotipo",
+      "imagem"
+    ]
+  },
+  {
+    "id": "imagem-decorativa-ou-duplicada-anunciada",
+    "sintoma": "Imagens decorativas ou duplicadas são anunciadas",
+    "descricao_curta": "O leitor de tela repete ilustrações, ícones e versões responsivas que não acrescentam informação.",
+    "categoria": "visual",
+    "componentes": [
+      "imagem",
+      "link",
+      "carrossel"
+    ],
+    "causas_provaveis": [
+      "Imagem decorativa com alt preenchido.",
+      "Várias versões da mesma imagem presentes na árvore de acessibilidade.",
+      "Ícone interno repete o nome do link ou botão."
+    ],
+    "solucao_minima": [
+      "Use alt vazio em imagens decorativas.",
+      "Exponha somente uma versão responsiva do mesmo conteúdo.",
+      "Oculte ícones internos quando o controle já possui nome suficiente.",
+      "Boa prática: Decida o tratamento da imagem pelo contexto.",
+      "Boa prática: Evite duplicar conteúdo para desktop e móvel no DOM."
+    ],
+    "validacao": [
+      "Leitor de tela: Percorra banners, cards e controles e identifique repetições.",
+      "Inspeção de código: Verifique alt, picture, variantes responsivas e elementos ocultos."
+    ],
+    "exemplo_codigo": "<a href=\"/inicio\"><img src=\"casa.svg\" alt=\"\">Página inicial</a>",
+    "impacto": "medio",
+    "responsaveis": [
+      "dev",
+      "conteudo",
+      "qa"
+    ],
+    "wcag": [
+      "1.1.1"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "imagem decorativa",
+      "alt vazio",
+      "duplicada",
+      "responsiva",
+      "cacofonia"
+    ]
+  },
+  {
+    "id": "imagem-css-ou-svg-sem-alternativa",
+    "sintoma": "Uma imagem em CSS ou SVG não tem nome acessível",
+    "descricao_curta": "Logotipos, banners, ícones ou ilustrações informativas são renderizados sem uma alternativa disponível à tecnologia assistiva.",
+    "categoria": "visual",
+    "componentes": [
+      "imagem",
+      "botao",
+      "link"
+    ],
+    "causas_provaveis": [
+      "Imagem informativa usada como background-image.",
+      "SVG sem title, texto equivalente ou nome do controle.",
+      "Conteúdo visual inserido por pseudo-elemento."
+    ],
+    "solucao_minima": [
+      "Use img com alt quando a imagem fizer parte do conteúdo.",
+      "Forneça nome acessível ao SVG ou ao controle que o contém.",
+      "Mantenha imagens de fundo apenas para decoração.",
+      "Boa prática: Não confie no nome do arquivo.",
+      "Boa prática: Quando o SVG estiver dentro de um botão nomeado, trate-o como decorativo."
+    ],
+    "validacao": [
+      "Leitor de tela: Confirme se a informação do visual é anunciada no ponto correto.",
+      "Inspeção de código: Inspecione CSS, SVG e o nome acessível calculado."
+    ],
+    "exemplo_codigo": "<svg role=\"img\" aria-labelledby=\"logo-titulo\">\n  <title id=\"logo-titulo\">Logotipo da organização</title>\n  ...\n</svg>",
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "conteudo",
+      "qa"
+    ],
+    "wcag": [
+      "1.1.1",
+      "4.1.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "background-image",
+      "svg",
+      "title",
+      "pseudo-elemento",
+      "logo"
+    ]
+  },
+  {
+    "id": "grafico-sem-equivalente-textual",
+    "sintoma": "Os dados do gráfico não estão disponíveis em texto",
+    "descricao_curta": "Tendências, notas ou comparações aparecem apenas visualmente e não podem ser consultadas pela tecnologia assistiva.",
+    "categoria": "visual",
+    "componentes": [
+      "imagem"
+    ],
+    "causas_provaveis": [
+      "Gráfico publicado somente como imagem ou canvas.",
+      "Alternativa curta identifica o gráfico, mas não fornece seus dados.",
+      "Valores e relações não estão presentes no HTML."
+    ],
+    "solucao_minima": [
+      "Forneça resumo das conclusões e acesso aos dados.",
+      "Use tabela ou lista estruturada quando for necessário consultar valores.",
+      "Associe a descrição ao gráfico.",
+      "Boa prática: Mantenha os dados equivalentes atualizados junto com o gráfico.",
+      "Boa prática: Não tente colocar uma tabela inteira dentro de alt."
+    ],
+    "validacao": [
+      "Leitor de tela: Confirme que tendência e valores relevantes podem ser compreendidos sem o visual.",
+      "Inspeção de código: Verifique a associação entre gráfico, resumo e dados detalhados."
+    ],
+    "exemplo_codigo": null,
+    "impacto": "alto",
+    "responsaveis": [
+      "conteudo",
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "1.1.1"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "gráfico",
+      "canvas",
+      "dados",
+      "tabela alternativa",
+      "descrição longa"
+    ]
+  },
+  {
+    "id": "qr-code-sem-alternativa",
+    "sintoma": "O processo depende de um QR Code sem alternativa",
+    "descricao_curta": "A pessoa precisa localizar ou escanear um código visual para continuar, mas não recebe outra forma acessível de concluir a tarefa.",
+    "categoria": "formulario",
+    "componentes": [
+      "imagem",
+      "formulario"
+    ],
+    "causas_provaveis": [
+      "QR Code tratado como único meio de validação ou recuperação.",
+      "Imagem sem descrição do propósito.",
+      "Alternativa exige outro dispositivo ou assistência de terceiros."
+    ],
+    "solucao_minima": [
+      "Informe claramente a finalidade do código.",
+      "Ofereça um método alternativo autônomo, como link, código copiável ou outro fluxo acessível.",
+      "Não condicione a recuperação de acesso à percepção visual.",
+      "Boa prática: Apresente a alternativa junto do QR Code.",
+      "Boa prática: Teste o fluxo completo, não apenas a tela isolada."
+    ],
+    "validacao": [
+      "Leitor de tela: Percorra o fluxo sem consultar a imagem e confirme se existe alternativa equivalente.",
+      "Teclado: Conclua a alternativa usando somente teclado."
+    ],
+    "exemplo_codigo": null,
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "ux",
+      "qa",
+      "conteudo"
+    ],
+    "wcag": [
+      "1.1.1"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "qr code",
+      "autenticação",
+      "recuperação de senha",
+      "alternativa",
+      "código"
+    ]
+  },
+  {
+    "id": "idioma-pagina-incorreto",
+    "sintoma": "O leitor de tela usa a pronúncia do idioma errado",
+    "descricao_curta": "A página está sem idioma definido ou declara uma língua diferente da predominante.",
+    "categoria": "leitor-de-tela",
+    "componentes": [],
+    "causas_provaveis": [
+      "Atributo lang ausente no elemento html.",
+      "Template mantém idioma padrão estrangeiro.",
+      "Mudança de idioma não atualiza a raiz da página ou da vista."
+    ],
+    "solucao_minima": [
+      "Defina o idioma predominante na raiz do documento.",
+      "Atualize o valor quando a versão linguística mudar.",
+      "Em aplicativos, configure corretamente o idioma e os rótulos acessíveis.",
+      "Boa prática: Use códigos BCP 47 válidos, como pt-BR.",
+      "Boa prática: Teste a troca de idioma."
+    ],
+    "validacao": [
+      "Leitor de tela: Ouça a pronúncia desde o início da página.",
+      "Inspeção de código: Confirme o valor de lang na raiz e sua correspondência com o conteúdo."
+    ],
+    "exemplo_codigo": "<html lang=\"pt-BR\">\n  ...\n</html>",
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "3.1.1"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "lang",
+      "idioma",
+      "pronúncia",
+      "inglês",
+      "português"
+    ]
+  },
+  {
+    "id": "trecho-idioma-nao-identificado",
+    "sintoma": "Um rótulo em outro idioma é pronunciado incorretamente",
+    "descricao_curta": "Botões, instruções e nomes acessíveis permanecem em outra língua ou não identificam programaticamente a mudança de idioma.",
+    "categoria": "leitor-de-tela",
+    "componentes": [
+      "botao",
+      "link",
+      "menu",
+      "carrossel"
+    ],
+    "causas_provaveis": [
+      "Textos padrão da biblioteca não traduzidos.",
+      "Aria-label em língua diferente da interface.",
+      "Trecho estrangeiro sem atributo lang."
+    ],
+    "solucao_minima": [
+      "Traduza rótulos e instruções para o idioma da interface.",
+      "Quando a mudança de língua for necessária, identifique-a no trecho.",
+      "Revise também nomes invisíveis usados pela tecnologia assistiva.",
+      "Boa prática: Inclua strings de acessibilidade no processo de internacionalização.",
+      "Boa prática: Evite abreviações de idioma ambíguas como único nome do link."
+    ],
+    "validacao": [
+      "Leitor de tela: Ouça controles de carrossel, fechar, limpar e navegação.",
+      "Inspeção de código: Inspecione textos acessíveis e atributos lang em mudanças de idioma."
+    ],
+    "exemplo_codigo": "<p>Consulte o status <span lang=\"en\">Sold out</span>.</p>",
+    "impacto": "medio",
+    "responsaveis": [
+      "conteudo",
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "3.1.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "go to slide",
+      "close",
+      "clear",
+      "lang",
+      "rótulo em inglês"
+    ]
+  },
+  {
+    "id": "atualizacao-dinamica-nao-anunciada",
+    "sintoma": "O conteúdo muda, mas o leitor de tela não recebe retorno",
+    "descricao_curta": "Resultados, filtros, paginação, notificações ou confirmações são atualizados visualmente sem mensagem de status.",
+    "categoria": "leitor-de-tela",
+    "componentes": [
+      "carrossel",
+      "formulario"
+    ],
+    "causas_provaveis": [
+      "Região atualizada sem anúncio programático.",
+      "Foco permanece no acionador e não há descrição do resultado.",
+      "Mensagem inserida antes de a tecnologia assistiva observar a região."
+    ],
+    "solucao_minima": [
+      "Disponibilize uma mensagem de status concisa sem exigir mudança de foco.",
+      "Use role=\"status\" ou aria-live adequado ao nível de urgência.",
+      "Informe o resultado, a quantidade ou a conclusão relevante.",
+      "Boa prática: Evite anúncios excessivos a cada tecla.",
+      "Boa prática: Não use role=\"alert\" para atualizações rotineiras."
+    ],
+    "validacao": [
+      "Leitor de tela: Execute busca, filtro, paginação e atualização de quantidade.",
+      "Leitor de tela: Confirme o anúncio do resultado sem mover manualmente o foco.",
+      "Inspeção de código: Verifique a região viva e o momento em que o texto é atualizado."
+    ],
+    "exemplo_codigo": "<p id=\"resultado\" role=\"status\" aria-live=\"polite\">12 itens encontrados</p>",
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "qa",
+      "ux"
+    ],
+    "wcag": [
+      "4.1.3"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "aria-live",
+      "role status",
+      "resultado",
+      "filtro",
+      "paginação",
+      "feedback"
+    ]
+  },
+  {
+    "id": "carregamento-nao-anunciado",
+    "sintoma": "O carregamento começa e termina sem aviso",
+    "descricao_curta": "Uma espera, validação ou envio é mostrado somente por animação, deixando incerto se a ação foi recebida ou concluída.",
+    "categoria": "leitor-de-tela",
+    "componentes": [
+      "formulario"
+    ],
+    "causas_provaveis": [
+      "Spinner sem nome ou mensagem de status.",
+      "Estado aria-busy não utilizado ou não atualizado.",
+      "Conclusão do processo não gera feedback."
+    ],
+    "solucao_minima": [
+      "Anuncie o início quando a espera for perceptível e a conclusão quando relevante.",
+      "Use uma mensagem de status e aria-busy no contêiner apropriado.",
+      "Mantenha o controle indisponível de forma programática enquanto necessário.",
+      "Boa prática: Use mensagens objetivas, como “Enviando” e “Dados enviados”.",
+      "Boa prática: Evite repetir continuamente o mesmo anúncio."
+    ],
+    "validacao": [
+      "Leitor de tela: Envie o formulário em conexão lenta e ouça início e conclusão.",
+      "Inspeção de código: Confirme a atualização de aria-busy e da região de status."
+    ],
+    "exemplo_codigo": "<section aria-busy=\"true\">\n  <p role=\"status\">Carregando resultados...</p>\n</section>",
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "qa",
+      "ux"
+    ],
+    "wcag": [
+      "4.1.3"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "carregando",
+      "spinner",
+      "aria-busy",
+      "status",
+      "envio"
+    ]
+  },
+  {
+    "id": "numero-sem-contexto",
+    "sintoma": "Um número é anunciado sem explicar o que representa",
+    "descricao_curta": "Contagens, posições, notas, preços ou indicadores aparecem isolados, sem relação programática com seu significado.",
+    "categoria": "leitor-de-tela",
+    "componentes": [
+      "botao",
+      "link",
+      "formulario"
+    ],
+    "causas_provaveis": [
+      "Número fora do nome do controle ou rótulo.",
+      "Relação compreensível apenas pela posição visual.",
+      "Abreviação, unidade ou contexto omitido."
+    ],
+    "solucao_minima": [
+      "Associe a quantidade ou o valor ao rótulo correspondente.",
+      "Inclua unidade e finalidade quando necessárias para compreensão.",
+      "Agrupe informações que formam uma única unidade.",
+      "Boa prática: Use frases naturais, como “3 itens no carrinho” ou “nota 8 de 10”.",
+      "Boa prática: Evite símbolos e abreviações ambíguas como único conteúdo."
+    ],
+    "validacao": [
+      "Leitor de tela: Leia o componente fora do contexto visual e explique o significado de cada número.",
+      "Inspeção de código: Verifique relações por label, aria-labelledby ou estrutura textual."
+    ],
+    "exemplo_codigo": "<button aria-label=\"Carrinho, 3 itens\"><span aria-hidden=\"true\">Carrinho 3</span></button>",
+    "impacto": "medio",
+    "responsaveis": [
+      "conteudo",
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "1.3.1",
+      "2.4.6"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "quantidade",
+      "notificações",
+      "carrinho",
+      "nota",
+      "número isolado"
+    ]
+  },
+  {
     "id": "campo-sem-label",
-    "sintoma": "Campo de formulário é anunciado sem rótulo",
-    "descricao_curta": "O leitor de tela informa apenas \"campo de texto\" ou \"editável\", sem indicar o que deve ser preenchido.",
+    "sintoma": "O campo de formulário é anunciado sem rótulo",
+    "descricao_curta": "O leitor de tela informa apenas o tipo do campo ou o placeholder, sem identificar de forma persistente o dado solicitado.",
     "categoria": "formulario",
     "componentes": [
       "formulario"
     ],
     "causas_provaveis": [
-      "Campo sem <label> associado.",
-      "Placeholder usado como único rótulo.",
-      "for do rótulo diferente do id do campo."
+      "Label ausente.",
+      "Placeholder usado como único nome.",
+      "Rótulo visual não associado programaticamente."
     ],
     "solucao_minima": [
-      "Associe cada campo a um rótulo visível.",
-      "Use placeholder apenas como apoio.",
-      "Associe instruções com aria-describedby, quando necessário."
+      "Associe um label visível a cada campo.",
+      "Use placeholder apenas como exemplo ou dica.",
+      "Associe instruções complementares com aria-describedby.",
+      "Boa prática: Mantenha o rótulo visível durante o preenchimento.",
+      "Boa prática: Evite nomes baseados somente em formato, como uma sequência numérica."
     ],
     "validacao": [
-      "Clique no rótulo e veja se o foco vai para o campo.",
-      "Inspecione o nome acessível do campo.",
-      "Teste com leitor de tela."
+      "Leitor de tela: Foque cada campo e confirme nome, tipo e instruções.",
+      "Inspeção de código: Inspecione o nome acessível calculado e a associação do label."
     ],
-    "exemplo_codigo": "<label for=\"email\">E-mail</label>\n<input id=\"email\" name=\"email\" type=\"email\" autocomplete=\"email\">",
+    "exemplo_codigo": "<label for=\"email\">E-mail</label>\n<input id=\"email\" type=\"email\" placeholder=\"nome@exemplo.com\">",
     "impacto": "alto",
     "responsaveis": [
-      "dev"
+      "dev",
+      "conteudo",
+      "qa"
     ],
     "wcag": [
       "1.3.1",
@@ -160,42 +2160,134 @@
     ],
     "abnt_nbr": [],
     "keywords": [
-      "formulario",
-      "campo",
       "label",
-      "rotulo",
+      "placeholder",
+      "campo sem nome",
       "input",
-      "placeholder"
+      "rótulo"
     ]
   },
   {
-    "id": "erro-nao-anunciado",
-    "sintoma": "Erro aparece na tela, mas não é anunciado",
-    "descricao_curta": "Depois do envio, a mensagem de erro aparece visualmente, mas não chega ao leitor de tela.",
+    "id": "rotulo-campo-associacao-incorreta",
+    "sintoma": "O rótulo visível não está ligado ao campo",
+    "descricao_curta": "Existe um texto que parece nomear o campo, mas a tecnologia assistiva não reconhece a relação.",
     "categoria": "formulario",
     "componentes": [
       "formulario"
     ],
     "causas_provaveis": [
-      "Mensagem dinâmica sem região viva.",
-      "Campo inválido sem aria-invalid.",
-      "Erro não associado ao campo."
+      "For do label diferente do id do input.",
+      "Id ausente ou duplicado.",
+      "Rótulo posicionado próximo sem associação programática."
     ],
     "solucao_minima": [
-      "Associe o erro ao campo com aria-describedby.",
-      "Use aria-invalid=\"true\" no campo inválido.",
-      "Use role=\"alert\" ou aria-live para avisos dinâmicos."
+      "Faça for e id corresponderem de forma única.",
+      "Use label envolvendo o controle quando apropriado.",
+      "Corrija ids duplicados em formulários repetidos ou dinâmicos.",
+      "Boa prática: Gere ids estáveis em componentes repetidos.",
+      "Boa prática: Não associe vários campos ao mesmo rótulo por engano."
     ],
     "validacao": [
-      "Envie o formulário vazio usando teclado.",
-      "Confirme se o erro é anunciado.",
-      "Confirme se a pessoa consegue localizar o campo com erro."
+      "Inspeção visual: Clique no rótulo e verifique se o campo recebe foco.",
+      "Leitor de tela: Foque o campo e confirme o anúncio do rótulo.",
+      "Inspeção de código: Valide unicidade de id e correspondência com for."
     ],
-    "exemplo_codigo": "<input id=\"cpf\" aria-invalid=\"true\" aria-describedby=\"cpf-erro\">\n<p id=\"cpf-erro\" role=\"alert\">CPF inválido.</p>",
+    "exemplo_codigo": "<label for=\"cep\">CEP</label>\n<input id=\"cep\" inputmode=\"numeric\">",
     "impacto": "alto",
     "responsaveis": [
       "dev",
       "qa"
+    ],
+    "wcag": [
+      "1.3.1",
+      "3.3.2",
+      "4.1.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "for",
+      "id",
+      "label",
+      "associação",
+      "id duplicado"
+    ]
+  },
+  {
+    "id": "obrigatoriedade-ou-instrucao-nao-informada",
+    "sintoma": "Não sei quais campos são obrigatórios ou como preenchê-los",
+    "descricao_curta": "Regras, formatos e obrigatoriedade aparecem tarde demais, apenas visualmente ou não estão associados aos campos.",
+    "categoria": "formulario",
+    "componentes": [
+      "formulario"
+    ],
+    "causas_provaveis": [
+      "Asterisco sem explicação ou relação programática.",
+      "Required ou aria-required ausente.",
+      "Instrução exibida somente depois do erro."
+    ],
+    "solucao_minima": [
+      "Informe obrigatoriedade e formato antes do envio.",
+      "Use required em controles nativos quando aplicável.",
+      "Associe instruções ao campo e explique símbolos utilizados.",
+      "Boa prática: Use exemplos reais de formato.",
+      "Boa prática: Não dependa apenas de cor para indicar campos obrigatórios."
+    ],
+    "validacao": [
+      "Leitor de tela: Entre no formulário sem enviar e confirme que requisitos já são conhecidos.",
+      "Inspeção de código: Verifique required e associações com textos de ajuda."
+    ],
+    "exemplo_codigo": "<label for=\"nome\">Nome (obrigatório)</label><input id=\"nome\" required>",
+    "impacto": "alto",
+    "responsaveis": [
+      "conteudo",
+      "dev",
+      "ux",
+      "qa"
+    ],
+    "wcag": [
+      "3.3.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "obrigatório",
+      "required",
+      "asterisco",
+      "instrução",
+      "formato"
+    ]
+  },
+  {
+    "id": "erro-nao-anunciado",
+    "sintoma": "O formulário mostra erro, mas não explica nem anuncia o problema",
+    "descricao_curta": "Após o envio, a mensagem é genérica, aparece apenas visualmente ou não permite localizar e corrigir o campo inválido.",
+    "categoria": "formulario",
+    "componentes": [
+      "formulario"
+    ],
+    "causas_provaveis": [
+      "Mensagem dinâmica sem região de alerta ou foco apropriado.",
+      "Erro não associado ao campo.",
+      "Texto não identifica o dado incorreto nem sugere correção quando possível."
+    ],
+    "solucao_minima": [
+      "Identifique em texto qual campo apresenta erro.",
+      "Associe a mensagem ao campo e marque o estado inválido.",
+      "Anuncie o resumo ou a mensagem dinâmica sem obrigar a pessoa a procurar visualmente.",
+      "Boa prática: Preserve os dados já preenchidos.",
+      "Boa prática: Não use “dados inválidos” quando for possível indicar o problema."
+    ],
+    "validacao": [
+      "Leitor de tela: Envie dados ausentes e inválidos e confirme o anúncio do erro.",
+      "Teclado: Localize e corrija cada campo sem mouse.",
+      "Inspeção de código: Inspecione aria-invalid, aria-describedby e região de alerta ou status."
+    ],
+    "exemplo_codigo": "<label for=\"cpf\">CPF</label>\n<input id=\"cpf\" aria-invalid=\"true\" aria-describedby=\"cpf-erro\">\n<p id=\"cpf-erro\" role=\"alert\">Informe os 11 dígitos do CPF.</p>",
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "conteudo",
+      "qa",
+      "ux"
     ],
     "wcag": [
       "3.3.1",
@@ -205,140 +2297,545 @@
     "abnt_nbr": [],
     "keywords": [
       "erro",
-      "formulario",
-      "validação",
       "aria-invalid",
       "aria-describedby",
-      "alert",
-      "live"
+      "role alert",
+      "validação"
+    ]
+  },
+  {
+    "id": "grupo-campos-sem-identificacao",
+    "sintoma": "Opções relacionadas não são anunciadas como um grupo",
+    "descricao_curta": "Radios, checkboxes ou conjuntos de campos aparecem juntos visualmente, mas não compartilham um título programático.",
+    "categoria": "formulario",
+    "componentes": [
+      "formulario"
+    ],
+    "causas_provaveis": [
+      "Ausência de fieldset e legend para grupo de opções.",
+      "Fieldset usado em campos sem relação lógica.",
+      "Título visual fora da estrutura do grupo."
+    ],
+    "solucao_minima": [
+      "Agrupe opções relacionadas com fieldset e legend quando apropriado.",
+      "Use cada fieldset apenas para uma relação lógica real.",
+      "Mantenha rótulo individual em cada controle.",
+      "Boa prática: Escreva legend como pergunta ou tema do conjunto.",
+      "Boa prática: Não crie fieldset apenas para layout."
+    ],
+    "validacao": [
+      "Leitor de tela: Entre no grupo e confirme o anúncio do título e de cada opção.",
+      "Inspeção de código: Verifique fieldset, legend e associações individuais."
+    ],
+    "exemplo_codigo": "<fieldset>\n  <legend>Como prefere receber contato?</legend>\n  <label><input type=\"radio\" name=\"contato\"> E-mail</label>\n  <label><input type=\"radio\" name=\"contato\"> Telefone</label>\n</fieldset>",
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "conteudo",
+      "qa"
+    ],
+    "wcag": [
+      "1.3.1",
+      "3.3.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "fieldset",
+      "legend",
+      "radio",
+      "checkbox",
+      "grupo"
     ]
   },
   {
     "id": "contraste-baixo",
-    "sintoma": "Texto ou ícone tem baixo contraste",
-    "descricao_curta": "A informação existe visualmente, mas é difícil de perceber.",
+    "sintoma": "O texto tem pouco contraste com o fundo",
+    "descricao_curta": "Textos, links e informações sobre imagens ficam difíceis de ler por causa da combinação de cores.",
     "categoria": "visual",
     "componentes": [],
     "causas_provaveis": [
-      "Texto claro sobre fundo claro.",
-      "Ícones e bordas com baixo contraste.",
-      "Cor usada como único meio de indicar estado."
+      "Cores escolhidas sem medição de contraste.",
+      "Texto sobre fotografia ou gradiente variável.",
+      "Estados e temas de alto contraste alteram a combinação prevista."
     ],
     "solucao_minima": [
-      "Revise cores de texto, ícones, bordas e estados.",
-      "Use texto, ícone ou padrão visual além da cor.",
-      "Padronize tokens de cor aprovados."
+      "Garanta relação mínima de 4,5:1 para texto comum e 3:1 para texto grande.",
+      "Meça cada estado e fundo real.",
+      "Ajuste tokens de cor e sobreposições em imagens.",
+      "Boa prática: Não dependa de plugin de alto contraste para corrigir a página padrão.",
+      "Boa prática: Documente combinações aprovadas."
     ],
     "validacao": [
-      "Meça contraste de texto e componentes.",
-      "Teste estados: foco, erro, sucesso, hover e desabilitado.",
-      "Confira se a informação não depende apenas da cor."
+      "Medição de contraste: Meça primeiro plano e fundo com ferramenta apropriada.",
+      "Inspeção visual: Teste texto normal, links, placeholder e estados em todos os temas."
     ],
     "exemplo_codigo": null,
     "impacto": "medio",
     "responsaveis": [
       "ux",
-      "dev"
-    ],
-    "wcag": [
-      "1.4.3",
-      "1.4.11"
-    ],
-    "abnt_nbr": [],
-    "keywords": [
-      "contraste",
-      "cor",
-      "texto",
-      "icone",
-      "borda"
-    ]
-  },
-  {
-    "id": "imagem-sem-descricao",
-    "sintoma": "Imagem importante não tem alternativa textual",
-    "descricao_curta": "O leitor de tela ignora uma imagem informativa ou anuncia apenas o nome do arquivo.",
-    "categoria": "visual",
-    "componentes": [
-      "imagem"
-    ],
-    "causas_provaveis": [
-      "Imagem informativa sem atributo alt.",
-      "Texto alternativo genérico.",
-      "Imagem decorativa anunciada desnecessariamente."
-    ],
-    "solucao_minima": [
-      "Descreva a função ou informação da imagem.",
-      "Use alt=\"\" para imagens decorativas.",
-      "Para gráficos complexos, ofereça resumo e dados em tabela."
-    ],
-    "validacao": [
-      "Navegue com leitor de tela.",
-      "Confirme se a informação essencial continua disponível.",
-      "Verifique se imagens decorativas não geram ruído."
-    ],
-    "exemplo_codigo": "<img src=\"grafico.png\" alt=\"Gráfico: vendas cresceram 20% em 2024\">\n<img src=\"decoracao.svg\" alt=\"\">",
-    "impacto": "medio",
-    "responsaveis": [
-      "conteudo",
-      "dev"
-    ],
-    "wcag": [
-      "1.1.1"
-    ],
-    "abnt_nbr": [],
-    "keywords": [
-      "imagem",
-      "texto alternativo",
-      "alt",
-      "grafico",
-      "icone",
-      "descrição"
-    ]
-  },
-  {
-    "id": "modal-foco-perdido",
-    "sintoma": "Modal abre, mas o foco fica perdido na página",
-    "descricao_curta": "Depois de abrir o modal, a navegação por teclado continua passando pelo conteúdo que está atrás dele.",
-    "categoria": "teclado",
-    "componentes": [
-      "modal"
-    ],
-    "causas_provaveis": [
-      "Modal sem semântica de diálogo.",
-      "Foco não movido para o modal na abertura.",
-      "Conteúdo de fundo ainda navegável.",
-      "Foco não retorna ao acionador ao fechar."
-    ],
-    "solucao_minima": [
-      "Use <dialog> quando possível.",
-      "Mova o foco para o modal ao abrir.",
-      "Mantenha Tab dentro do modal.",
-      "Devolva o foco ao botão de origem ao fechar."
-    ],
-    "validacao": [
-      "Abra o modal usando teclado.",
-      "Confirme se Tab não vai para o conteúdo de fundo.",
-      "Feche com Esc, quando aplicável, e confira o retorno do foco."
-    ],
-    "exemplo_codigo": "<dialog id=\"d\" aria-labelledby=\"d-titulo\">\n  <h2 id=\"d-titulo\">Título</h2>\n  <button type=\"button\" autofocus>Fechar</button>\n</dialog>\n\n<script>\n  document.getElementById('d').showModal();\n</script>",
-    "impacto": "alto",
-    "responsaveis": [
       "dev",
       "qa"
     ],
     "wcag": [
-      "2.1.2",
-      "2.4.3",
-      "4.1.2"
+      "1.4.3"
     ],
     "abnt_nbr": [],
     "keywords": [
-      "modal",
-      "dialog",
+      "contraste",
+      "texto",
+      "4.5:1",
+      "3:1",
+      "baixa visão"
+    ]
+  },
+  {
+    "id": "contraste-componente-ou-foco-insuficiente",
+    "sintoma": "Bordas, ícones ou estados têm contraste insuficiente",
+    "descricao_curta": "Partes necessárias para identificar ou operar controles se confundem com as cores adjacentes.",
+    "categoria": "visual",
+    "componentes": [
+      "botao",
+      "formulario"
+    ],
+    "causas_provaveis": [
+      "Borda do campo, ícone ou indicador abaixo de 3:1.",
+      "Estado selecionado ou foco baseado em diferença muito sutil.",
+      "Tema alternativo torna elementos invisíveis."
+    ],
+    "solucao_minima": [
+      "Garanta contraste de pelo menos 3:1 para componentes e estados necessários.",
+      "Meça bordas, ícones e indicadores contra as cores adjacentes.",
+      "Revise temas claro, escuro e alto contraste.",
+      "Boa prática: Não meça somente a cor do texto.",
+      "Boa prática: Teste também componentes sobre imagens e gradientes."
+    ],
+    "validacao": [
+      "Medição de contraste: Meça componentes em repouso e nos estados de foco, seleção e erro.",
+      "Inspeção visual: Confirme que ícones e limites dos campos permanecem perceptíveis em todos os temas."
+    ],
+    "exemplo_codigo": null,
+    "impacto": "medio",
+    "responsaveis": [
+      "ux",
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "1.4.11"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "contraste não textual",
+      "ícone",
+      "borda",
+      "campo",
+      "estado"
+    ]
+  },
+  {
+    "id": "informacao-somente-cor",
+    "sintoma": "A informação é mostrada apenas pela cor",
+    "descricao_curta": "Sucesso, erro, seleção ou andamento muda de cor, mas não oferece texto, forma ou anúncio equivalente.",
+    "categoria": "visual",
+    "componentes": [
+      "formulario"
+    ],
+    "causas_provaveis": [
+      "Status implementado somente no estilo visual.",
+      "Biometria ou validação usa cores sem mensagem.",
+      "Legenda de cores não está associada ao conteúdo."
+    ],
+    "solucao_minima": [
+      "Acrescente texto, ícone distinguível ou outro indicador além da cor.",
+      "Disponibilize o estado programaticamente.",
+      "Anuncie mudanças dinâmicas quando necessário.",
+      "Boa prática: Use cor como reforço, não como único código.",
+      "Boa prática: Mantenha rótulos próximos dos indicadores."
+    ],
+    "validacao": [
+      "Inspeção visual: Simule ausência de cor e confirme que os estados continuam distinguíveis.",
+      "Leitor de tela: Verifique se o mesmo status é anunciado."
+    ],
+    "exemplo_codigo": "<p role=\"status\"><span aria-hidden=\"true\">✓</span> Verificação concluída</p>",
+    "impacto": "alto",
+    "responsaveis": [
+      "ux",
+      "dev",
+      "conteudo",
+      "qa"
+    ],
+    "wcag": [
+      "1.4.1"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "somente cor",
+      "status",
+      "erro",
+      "sucesso",
+      "biometria"
+    ]
+  },
+  {
+    "id": "conteudo-corta-ou-sobrepoe-no-zoom",
+    "sintoma": "Textos e controles são cortados ou sobrepostos ao ampliar",
+    "descricao_curta": "Com zoom ou tela estreita, conteúdo desaparece, fica truncado, invade outra área ou exige rolagem inadequada.",
+    "categoria": "visual",
+    "componentes": [
+      "menu",
+      "carrossel",
+      "imagem"
+    ],
+    "causas_provaveis": [
+      "Alturas e larguras fixas.",
+      "Overflow ocultando texto e controles.",
+      "Layout não reflui ou imagem não se adapta ao contêiner."
+    ],
+    "solucao_minima": [
+      "Permita redimensionamento de texto até 200% sem perda de conteúdo ou função.",
+      "Implemente refluxo para largura equivalente a 320 CSS pixels.",
+      "Use dimensões flexíveis, quebra de linha e imagens responsivas.",
+      "Boa prática: Não esconda texto para fazê-lo caber.",
+      "Boa prática: Teste conteúdo real e rótulos longos."
+    ],
+    "validacao": [
+      "Redimensionamento e refluxo: Teste zoom de 200% e viewport de 320 CSS pixels.",
+      "Redimensionamento e refluxo: Confirme que nada essencial fica cortado, sobreposto ou inacessível.",
+      "Teclado: Percorra a versão redimensionada e teste menus e diálogos."
+    ],
+    "exemplo_codigo": null,
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "ux",
+      "qa"
+    ],
+    "wcag": [
+      "1.4.4",
+      "1.4.10"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "zoom",
+      "200%",
+      "refluxo",
+      "responsividade",
+      "texto cortado",
+      "sobreposição"
+    ]
+  },
+  {
+    "id": "carrossel-sem-pausa",
+    "sintoma": "O carrossel muda antes de eu terminar a leitura",
+    "descricao_curta": "Slides avançam automaticamente sem controle acessível para pausar, parar ou ocultar o movimento.",
+    "categoria": "movimento",
+    "componentes": [
+      "carrossel"
+    ],
+    "causas_provaveis": [
+      "Rotação automática sem botão de pausa.",
+      "Pausa acontece apenas por hover.",
+      "Movimento reinicia ao foco mudar."
+    ],
+    "solucao_minima": [
+      "Ofereça controle de pausa acessível quando o movimento iniciar automaticamente e durar mais de cinco segundos.",
+      "Pause também quando necessário para interação com o conteúdo.",
+      "Preserve a escolha da pessoa durante a sessão.",
+      "Boa prática: Prefira não iniciar rotação automaticamente.",
+      "Boa prática: Mantenha os controles em posição consistente."
+    ],
+    "validacao": [
+      "Teclado: Localize e acione o controle de pausa.",
+      "Leitor de tela: Confirme nome, função e estado do controle.",
+      "Inspeção visual: Verifique que a rotação realmente para e não reinicia sozinha."
+    ],
+    "exemplo_codigo": null,
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "ux",
+      "qa"
+    ],
+    "wcag": [
+      "2.2.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "carrossel",
+      "slide",
+      "pausa",
+      "rotação automática",
+      "movimento"
+    ]
+  },
+  {
+    "id": "carrossel-foco-e-estado-incoerentes",
+    "sintoma": "O carrossel foca slides ocultos ou não informa qual está ativo",
+    "descricao_curta": "A navegação percorre slides invisíveis, o foco se move com a rotação ou a troca não é anunciada e não atualiza o slide esperado.",
+    "categoria": "teclado",
+    "componentes": [
+      "carrossel"
+    ],
+    "causas_provaveis": [
+      "Todos os slides permanecem focáveis.",
+      "Estado atual existe apenas visualmente.",
+      "Rotação move o foco ou substitui conteúdo sem mensagem adequada."
+    ],
+    "solucao_minima": [
+      "Retire slides ocultos da ordem de foco.",
+      "Mantenha o foco sob controle da pessoa.",
+      "Informe o slide atual e anuncie trocas solicitadas sem excesso.",
+      "Boa prática: Siga o padrão de carrossel do WAI-ARIA Authoring Practices.",
+      "Boa prática: Não duplique slides para criar rolagem infinita sem ocultá-los corretamente."
+    ],
+    "validacao": [
+      "Teclado: Percorra o carrossel e confirme que somente conteúdo visível ou deliberadamente acessível recebe foco.",
+      "Leitor de tela: Troque slides e confirme nome, posição e estado atual.",
+      "Inspeção visual: Compare o slide anunciado com o exibido."
+    ],
+    "exemplo_codigo": null,
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "qa",
+      "ux"
+    ],
+    "wcag": [
+      "2.4.3",
+      "4.1.2",
+      "4.1.3"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "slide oculto",
+      "slide atual",
       "foco",
-      "teclado",
-      "esc",
-      "aria-modal"
+      "carrossel",
+      "aria-live"
+    ]
+  },
+  {
+    "id": "video-sem-audiodescricao",
+    "sintoma": "Informações visuais do vídeo não são descritas",
+    "descricao_curta": "Cenas, textos e ações necessários para compreender vídeo pré-gravado não estão disponíveis na faixa de áudio.",
+    "categoria": "movimento",
+    "componentes": [
+      "carrossel"
+    ],
+    "causas_provaveis": [
+      "Vídeo publicado sem audiodescrição.",
+      "Narração original não comunica as informações visuais relevantes.",
+      "Versão acessível não está disponível ou identificada."
+    ],
+    "solucao_minima": [
+      "Inclua audiodescrição sincronizada das informações visuais necessárias.",
+      "No nível A, avalie mídia alternativa textual quando aplicável; para nível AA, forneça audiodescrição.",
+      "Identifique e disponibilize claramente a versão acessível.",
+      "Boa prática: Planeje pausas naturais na produção.",
+      "Boa prática: Evite descrever o que já está dito no áudio."
+    ],
+    "validacao": [
+      "Multimídia: Ouça o vídeo sem olhar a tela e registre informações essenciais ausentes.",
+      "Multimídia: Confirme sincronização, clareza e acesso ao recurso de audiodescrição."
+    ],
+    "exemplo_codigo": null,
+    "impacto": "alto",
+    "responsaveis": [
+      "conteudo",
+      "qa"
+    ],
+    "wcag": [
+      "1.2.3",
+      "1.2.5"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "vídeo",
+      "audiodescrição",
+      "cenas",
+      "mídia alternativa",
+      "pré-gravado"
+    ]
+  },
+  {
+    "id": "captcha-sem-alternativa-acessivel",
+    "sintoma": "O CAPTCHA impede concluir a tarefa de forma acessível",
+    "descricao_curta": "A verificação depende de imagens ou oferece alternativa de áudio inacessível, sem foco ou em idioma inadequado.",
+    "categoria": "formulario",
+    "componentes": [
+      "formulario"
+    ],
+    "causas_provaveis": [
+      "Somente um modo sensorial de desafio.",
+      "Alternativa de áudio não pode ser alcançada ou compreendida.",
+      "Widget de terceiros não acompanha idioma e navegação da página."
+    ],
+    "solucao_minima": [
+      "Ofereça formas de autenticação que não dependam de teste cognitivo sem alternativa ou assistência.",
+      "Garanta alternativas em modos sensoriais diferentes e no idioma adequado.",
+      "Teste foco, operação e retorno do widget.",
+      "Boa prática: Prefira mecanismos de detecção de abuso que não criem desafios ao usuário.",
+      "Boa prática: Preveja falha e indisponibilidade do fornecedor."
+    ],
+    "validacao": [
+      "Teclado: Conclua ou contorne o desafio sem mouse.",
+      "Leitor de tela: Localize a alternativa, compreenda as instruções e retorne ao fluxo.",
+      "Inspeção de código: Revise a configuração e o idioma do serviço de terceiros."
+    ],
+    "exemplo_codigo": null,
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "ux",
+      "qa"
+    ],
+    "wcag": [
+      "1.1.1",
+      "3.3.8"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "captcha",
+      "recaptcha",
+      "áudio",
+      "autenticação",
+      "selecionar imagens"
+    ]
+  },
+  {
+    "id": "atualizacao-automatica-sem-controle",
+    "sintoma": "A página atualiza ou expira sem aviso e sem controle",
+    "descricao_curta": "Um recarregamento ou limite de tempo interrompe leitura e preenchimento sem permitir desativar, ajustar ou ampliar o prazo.",
+    "categoria": "movimento",
+    "componentes": [
+      "formulario"
+    ],
+    "causas_provaveis": [
+      "Meta refresh periódico.",
+      "Sessão com expiração não informada.",
+      "Temporizador reiniciado sem opção de extensão."
+    ],
+    "solucao_minima": [
+      "Remova atualização automática desnecessária.",
+      "Antes do limite, informe o tempo e permita desligar, ajustar ou ampliar conforme o critério.",
+      "Preserve dados e posição quando houver renovação.",
+      "Boa prática: Não use recarregamento como mecanismo de atualização de conteúdo.",
+      "Boa prática: Teste com leitura lenta e formulários parcialmente preenchidos."
+    ],
+    "validacao": [
+      "Teclado: Aguarde o limite e confirme se existe aviso e controle acessível.",
+      "Leitor de tela: Verifique o anúncio do aviso e da confirmação de extensão.",
+      "Inspeção de código: Procure meta refresh e temporizadores de sessão."
+    ],
+    "exemplo_codigo": "<button type=\"button\" id=\"atualizar\">Atualizar conteúdo</button>",
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "ux",
+      "qa"
+    ],
+    "wcag": [
+      "2.2.1"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "meta refresh",
+      "tempo limite",
+      "expiração",
+      "recarrega",
+      "sessão"
+    ]
+  },
+  {
+    "id": "informacao-essencial-fragmentada",
+    "sintoma": "Informações que formam uma unidade são anunciadas separadamente",
+    "descricao_curta": "Nome, preço, parcela, avaliação ou estado aparecem juntos visualmente, mas a leitura não permite entender a relação entre eles.",
+    "categoria": "leitor-de-tela",
+    "componentes": [
+      "link",
+      "carrossel"
+    ],
+    "causas_provaveis": [
+      "Card dividido em muitos focos ou contêineres sem relação.",
+      "Somente o nome faz parte do link; detalhes essenciais ficam isolados.",
+      "Ordem do DOM não acompanha a unidade visual."
+    ],
+    "solucao_minima": [
+      "Agrupe programaticamente informações que descrevem o mesmo item.",
+      "Faça o link principal ter finalidade suficiente sem criar paradas redundantes.",
+      "Mantenha valores e unidades em sequência compreensível.",
+      "Boa prática: Evite tornar cada fragmento um link para o mesmo destino.",
+      "Boa prática: Não coloque textos longos inteiros no nome acessível quando a leitura de conteúdo já resolve a relação."
+    ],
+    "validacao": [
+      "Leitor de tela: Navegue por cada card e reconte nome, valor, estado e ação sem apoio visual.",
+      "Teclado: Conte as paradas de foco e confirme que nenhuma informação essencial é perdida."
+    ],
+    "exemplo_codigo": null,
+    "impacto": "alto",
+    "responsaveis": [
+      "dev",
+      "conteudo",
+      "ux",
+      "qa"
+    ],
+    "wcag": [
+      "1.3.1",
+      "1.3.2",
+      "2.4.4"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "card de produto",
+      "preço",
+      "avaliação",
+      "informação agrupada",
+      "contexto"
+    ]
+  },
+  {
+    "id": "instrucoes-insuficientes",
+    "sintoma": "As instruções não permitem concluir a etapa com autonomia",
+    "descricao_curta": "Uma validação, cadastro ou ação pede posicionamento, formato ou procedimento sem explicar claramente o que fazer e como corrigir.",
+    "categoria": "formulario",
+    "componentes": [
+      "formulario"
+    ],
+    "causas_provaveis": [
+      "Orientação genérica ou exclusivamente visual.",
+      "Etapas e critérios não informados antes da ação.",
+      "Feedback não distingue sucesso, erro e próximo passo."
+    ],
+    "solucao_minima": [
+      "Forneça instruções textuais objetivas antes da interação.",
+      "Explique formato, posição, ações esperadas e alternativas disponíveis.",
+      "Dê feedback específico durante e após cada etapa.",
+      "Boa prática: Teste o texto com pessoas que não conhecem o processo.",
+      "Boa prática: Divida instruções longas por etapa."
+    ],
+    "validacao": [
+      "Leitor de tela: Conclua o fluxo usando apenas as instruções anunciadas.",
+      "Dispositivo móvel: Teste as orientações em diferentes tamanhos e com tecnologia assistiva.",
+      "Inspeção visual: Confirme que instruções não dependem apenas de posição, forma ou cor."
+    ],
+    "exemplo_codigo": null,
+    "impacto": "alto",
+    "responsaveis": [
+      "conteudo",
+      "ux",
+      "dev",
+      "qa"
+    ],
+    "wcag": [
+      "3.3.2"
+    ],
+    "abnt_nbr": [],
+    "keywords": [
+      "instruções vagas",
+      "validação",
+      "biometria",
+      "cadastro",
+      "orientação"
     ]
   }
 ]
