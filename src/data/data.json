@@ -1082,7 +1082,7 @@
     "impacto": "alto",
     "responsaveis": [
       "dev",
-      "conteudo",
+      "conteudo"
     ],
     "wcag": [
       "2.5.3",
