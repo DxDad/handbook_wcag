@@ -331,16 +331,6 @@ export default function Home() {
             <Card key={item.id} item={item} open={openIds.has(item.id)} onToggle={toggle} />
           ))}
         </div>
-
-        <h2 className={styles.srOnly}>Sobre esta view</h2>
-        <div className={styles.about}>
-          <p>
-            <strong>Sobre esta view:</strong> renderizada a partir de um schema
-            canônico (<code>schema.json</code>) + dados (<code>data.json</code>). Os mesmos
-            dados podem alimentar outras views ou uma API.
-          </p>
-        </div>
-
       </main>
     </Layout>
   );
