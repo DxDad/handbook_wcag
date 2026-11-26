@@ -62,7 +62,7 @@ const config = {
       navbar: {
         title: 'Handbook A11Y',
         logo: {
-          alt: 'Handbook A11Y Logo',
+          alt: '',
           src: 'img/logo.svg',
         },
         items: [
@@ -86,7 +86,7 @@ const config = {
             title: 'Handbook',
             items: [
               {
-                label: 'Sobre esta view',
+                label: 'Sobre o Handbook A11Y',
                 to: '/docs/intro',
               },
             ],

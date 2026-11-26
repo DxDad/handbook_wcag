@@ -107,6 +107,10 @@ html {
   max-width: 75ch;
 }
 
+.markdown p a {
+  text-decoration: underline;
+}
+
 code, pre, kbd {
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
 }

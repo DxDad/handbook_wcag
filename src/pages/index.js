@@ -166,7 +166,7 @@ export default function Home() {
     list.length === DATA.length
       ? DATA.length + ' sintomas disponíveis'
       : list.length + ' de ' + DATA.length + ' sintomas' +
-        (list.length === 0 ? ' — Nenhum resultado. Tente outro termo ou remova um filtro.' : '');
+        (list.length === 0 ? '. Tente outro termo ou remova um filtro.' : '');
 
   // Contagem anunciada separadamente da visível, com debounce, para nao
   // interromper o leitor de tela a cada tecla digitada na busca.
@@ -190,36 +190,33 @@ export default function Home() {
   return (
     <Layout
       title="Sintoma, causa, solução"
-      description="Encontre a causa e a correção para sintomas de acessibilidade, facetado por categoria e componente de UI.">
+      description="Busque um problema de acessibilidade e encontre causas prováveis, passos de correção e orientações de teste.">
 
       <header className={styles.header}>
         <div className={styles.hInner}>
           <p className={styles.eyebrow}>Handbook de Acessibilidade</p>
           <h1 className={styles.h1}>
-            Descreva o que você está vendo.{' '}
-            A gente te diz o que fazer.
+            Encontre soluções para problemas de acessibilidade
           </h1>
           <p className={styles.lead}>
-            Cada item combina duas informações independentes:{' '}
-            <strong>categoria</strong> (o tipo do problema) e{' '}
-            <strong>componente</strong> (onde ele aparece na UI). Filtre pelo
-            sintoma, encontre a causa provável e a correção mínima.
+            Busque pelo que você percebeu. Use os filtros para indicar o tipo
+            de problema e em qual elemento da interface ele aparece.
           </p>
-          <ol className={styles.steps} aria-label="Como usar este handbook">
+          <ol className={styles.steps} aria-label="Como usar o Handbook A11Y">
             <li className={styles.step}>
               <b className={styles.sNum} aria-hidden="true">01</b>
               <strong>Descreva o sintoma</strong>
-              <span>Digite o que você percebeu na tela ou no teste de teclado.</span>
+              <span>Comece com um termo como foco, contraste ou leitor de tela.</span>
             </li>
             <li className={styles.step}>
               <b className={styles.sNum} aria-hidden="true">02</b>
-              <strong>Filtre por faceta</strong>
-              <span>Categoria e componente são independentes — combine os dois.</span>
+              <strong>Refine a busca</strong>
+              <span>Use a categoria e o componente juntos ou separadamente.</span>
             </li>
             <li className={styles.step}>
               <b className={styles.sNum} aria-hidden="true">03</b>
               <strong>Abra o card</strong>
-              <span>Causa provável, correção mínima e validação em um só lugar.</span>
+              <span>Veja as causas prováveis, como corrigir e como testar a correção.</span>
             </li>
           </ol>
         </div>
@@ -271,7 +268,7 @@ export default function Home() {
           </div>
           <div className={styles.legend}>
             <span><b className={styles.lCat}>Categoria</b> = natureza do problema</span>
-            <span><b className={styles.lComp}>Componente</b> = onde ele aparece na UI</span>
+            <span><b className={styles.lComp}>Componente</b> = elemento da interface afetado</span>
           </div>
         </section>
 

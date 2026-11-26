@@ -5,37 +5,32 @@ title: Sobre o Handbook A11Y
 
 # Sobre o Handbook A11Y
 
-Este handbook é uma ferramenta de diagnóstico rápido de acessibilidade para times de produto. O objetivo é simples: se você percebeu um problema durante um teste ou revisão, encontra a causa provável e a correção mínima aqui, sem precisar ser especialista em WCAG.
+O Handbook A11Y ajuda equipes de produto a investigar e corrigir problemas de acessibilidade na web. Se você encontrou um problema durante um teste ou uma revisão, busque pelo sintoma para descobrir o que pode estar causando a falha, como corrigi-la e como testar a correção.
 
 ## Para quem é
 
-- **Desenvolvedores front-end** que precisam corrigir um bug apontado pela equipe ou pelo cliente.
-- **QA** que precisa reproduzir e descrever um problema para o dev.
-- **Designers UX** que querem entender o impacto técnico de uma escolha visual.
+- **Desenvolvimento** usa o guia para investigar falhas e aplicar correções.
+- **Qualidade (QA)** usa os passos para reproduzir problemas e verificar as correções.
+- **Design** usa os exemplos para entender como as decisões de interface afetam o uso do produto.
 
 ## Como o conteúdo é organizado
 
-Cada item tem **duas facetas independentes**:
+O catálogo tem dois filtros que você pode usar juntos ou separadamente.
 
-| Faceta | O que é | Exemplo |
+| Filtro | O que indica | Exemplos |
 |--------|---------|---------|
-| **Categoria** | O tipo do problema (o *que* quebrou) | Teclado e foco, Leitor de tela, Formulário |
-| **Componente** | O elemento de UI afetado (o *onde*) | Botão, Modal, Imagem |
+| **Categoria** | O tipo de problema | Teclado e foco, leitor de tela, formulário |
+| **Componente** | O elemento da interface em que o problema aparece | Botão, modal, imagem |
 
-Um item pode ter múltiplos componentes (ex.: um problema de foco pode afetar tanto o botão quanto o modal). As facetas são independentes — filtre por uma, pela outra ou pelas duas.
+Por exemplo, selecione a categoria **Teclado e foco** e o componente **Modal** para encontrar problemas de navegação pelo teclado em janelas modais. Um mesmo sintoma pode aparecer em mais de um componente.
 
 ## O que cada card contém
 
-1. **Sintoma** — descrito em linguagem de quem percebeu o problema, não de quem vai resolver.
-2. **Causa provável** — as raízes técnicas mais comuns para esse sintoma.
-3. **Solução mínima** — os passos necessários para corrigir, na ordem certa.
-4. **Como validar** — como confirmar que a correção funcionou, sem ferramenta especializada.
-5. **Código de exemplo** — trecho ilustrativo quando a solução tem implementação direta.
-6. **Critérios WCAG** — os critérios de sucesso relacionados (quando mapeados).
+O card reúne o sintoma, as causas mais comuns, os passos de correção e as orientações de teste. Quando disponíveis, você também encontra exemplos de código e critérios das Diretrizes de Acessibilidade para Conteúdo Web (WCAG). Veja [como ler um card](./como-usar.mdx).
 
-## Sobre o schema de dados
+## Como os dados são armazenados {/* #sobre-o-schema-de-dados */}
 
-Os dados vivem em [`src/data/data.json`](https://github.com/DxDad/handbook_wcag/blob/main/src/data/data.json) e seguem o contrato definido em [`src/data/schema.json`](https://github.com/DxDad/handbook_wcag/blob/main/src/data/schema.json). Os campos principais:
+O arquivo [`data.json`](https://github.com/DxDad/handbook_wcag/blob/main/src/data/data.json) contém os sintomas. O [`schema.json`](https://github.com/DxDad/handbook_wcag/blob/main/src/data/schema.json) define quais campos são obrigatórios e quais valores eles aceitam. O exemplo abaixo mostra a estrutura de um registro.
 
 ```json
 {
@@ -51,4 +46,4 @@ Os dados vivem em [`src/data/data.json`](https://github.com/DxDad/handbook_wcag/
 }
 ```
 
-O schema é agnóstico de apresentação: os mesmos dados podem alimentar outros formatos (view por critério WCAG, API REST, exportação CSV) sem alterar a estrutura.
+Como os dados ficam em um arquivo separado da interface, podem ser reaproveitados em outros formatos, como uma planilha.

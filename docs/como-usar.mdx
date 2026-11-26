@@ -5,65 +5,44 @@ title: Como ler um card
 
 # Como ler um card
 
-Cada card no handbook segue sempre a mesma estrutura. Veja como navegar.
+Use o título e as etiquetas para encontrar um card que corresponda ao problema. Abra o card para ver como investigar, corrigir e testar.
 
-## Cabeçalho do card (fechado)
+## Com o card fechado {/* #cabeçalho-do-card-fechado */}
 
-Quando o card está fechado, você vê apenas o essencial para decidir se deve abri-lo:
+O título descreve o sintoma. Por exemplo, *Não consigo acessar um componente usando Tab*. As etiquetas mostram a categoria, os componentes afetados, o impacto, quem costuma cuidar da correção e os critérios WCAG relacionados.
 
-- **Sintoma** — a frase que descreve o problema como quem percebe, não como quem conserta. Ex.: *"Não consigo acessar um componente usando Tab"*.
-- **Badges/pills** — metadados visuais:
-  - 🔵 Azul → **Categoria** (o tipo do problema)
-  - 🟢 Verde-azulado → **Componente** (onde aparece na UI)
-  - 🔴/🟡 → **Impacto** (alto, médio ou baixo)
-  - Cinza → **Responsável** (Dev, QA, UX, Conteúdo)
-  - Azul claro com borda → **Critério WCAG**
+Clique no título para abrir ou fechar o card. Pelo teclado, use **Tab** para chegar ao botão do card e pressione **Enter** ou **Espaço**.
 
-Clique no card para abrir.
+## Com o card aberto {/* #corpo-do-card-aberto */}
 
-## Corpo do card (aberto)
-
-Ao abrir, o card mostra primeiro uma linha de **descrição** com contexto adicional sobre o sintoma, seguida de três colunas:
+O card começa com uma breve descrição do problema. Em seguida, você encontra três seções.
 
 ### Causa provável
 
-Lista as raízes técnicas mais comuns para esse sintoma. Use para confirmar que você está lidando com o mesmo problema antes de corrigir.
-
-> *Ex.: "Uso de `<div>` ou `<span>` como controle."*
+Veja o que pode estar causando o problema. Um botão que fica fora da navegação por teclado pode ter sido feito com uma `<div>` sem suporte a foco e acionamento.
 
 ### Solução mínima
 
-Passos ordenados para corrigir. É a **dose mínima eficaz** — não um tratado sobre a melhor implementação possível.
-
-> *Ex.: "Use `<button>` para ações. Use `<a href>` para navegação."*
+Siga os passos na ordem indicada. Nesse exemplo, use `<button>` para uma ação e `<a href="…">` para levar a pessoa a outro endereço.
 
 ### Como validar
 
-Como confirmar que a correção funcionou. Geralmente são passos de teste manual, sem ferramenta especializada.
-
-> *Ex.: "Navegue usando apenas Tab e Shift+Tab. Acione os controles pelo teclado."*
+Repita o teste para confirmar que o problema foi resolvido. Nesse exemplo, use **Tab** e **Shift+Tab** para chegar ao controle e verifique se consegue acioná-lo pelo teclado.
 
 ## Código de exemplo
 
-Quando presente, aparece abaixo das três colunas como um trecho ilustrativo da solução correta. Não é um copy-paste pronto para produção — é um ponto de partida.
+Quando houver um exemplo de código, ele aparece abaixo das orientações de teste. Use o trecho como ponto de partida e adapte-o ao seu projeto.
 
-## Critério WCAG
+## Critérios WCAG {/* #critério-wcag */}
 
-Os badges no cabeçalho indicam os critérios de sucesso do WCAG relacionados. Quando o critério ainda não foi mapeado para um item, aparece a nota *"Critério WCAG: a definir."* no corpo do card.
+As etiquetas no cabeçalho indicam os critérios da WCAG associados ao sintoma. Se ainda não houver uma associação, o card aberto exibe a mensagem *Critério WCAG: a definir.*
 
 ## Filtros ativos
 
-Ao escolher uma categoria ou componente, um "chip" removível aparece logo abaixo dos filtros (ex.: *"Categoria: Formulário ×"*). Clique no chip para remover só aquele filtro, sem precisar abrir o select de novo.
+A busca procura o termo no título do sintoma, na descrição e nas palavras-chave. Você pode combinar a busca com os filtros de categoria e componente.
 
-## Atalhos de uso
+Cada filtro selecionado aparece como um botão abaixo dos campos. Acione esse botão para remover apenas aquele filtro. Use **Limpar filtros** para apagar a busca e remover as seleções de categoria e componente.
 
-| Gesto | O que faz |
-|-------|-----------|
-| **Clique** no cabeçalho | Abre ou fecha o card |
-| **Enter / Espaço** com foco no botão | Abre ou fecha (acessível por teclado) |
-| Busca por texto | Filtra por sintoma, descrição e palavras-chave |
-| Select de categoria | Filtra pelo tipo do problema |
-| Select de componente | Filtra pelo elemento de UI afetado |
-| Chip de filtro ativo | Remove apenas aquele filtro |
-| **Abrir todos / Fechar todos** | Expande ou recolhe todos os cards da lista de uma vez (aparece a partir de 6 resultados) |
-| **Limpar filtros** | Remove todos os filtros ativos (fica desabilitado quando não há filtro aplicado) |
+## Abrir ou fechar vários cards {/* #atalhos-de-uso */}
+
+Quando a lista tem seis ou mais resultados, use **Abrir todos** ou **Fechar todos** para abrir ou fechar de uma vez os cards que aparecem nos resultados.

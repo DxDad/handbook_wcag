@@ -2,15 +2,20 @@ import {test, expect} from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 const pages = [
-  {path: './', heading: 'Descreva o que você está vendo. A gente te diz o que fazer.'},
+  {path: './', heading: 'Encontre soluções para problemas de acessibilidade'},
   {path: 'docs/intro', heading: 'Sobre o Handbook A11Y'},
   {path: 'docs/como-usar', heading: 'Como ler um card'},
+  {path: 'markdown-page', heading: 'Exemplo de página em Markdown'},
 ];
 
 for (const currentPage of pages) {
   test(`não apresenta violações automáticas de acessibilidade em "${currentPage.heading}"`, async ({page}) => {
     await page.goto(currentPage.path);
     await expect(page.getByRole('heading', {level: 1, name: currentPage.heading, exact: true})).toBeVisible();
+    await expect(page.locator('html')).toHaveAttribute('lang', 'pt-BR');
+    const navigation = page.getByRole('navigation', {name: 'Navegação principal'});
+    const githubLink = navigation.getByRole('link', {name: /^GitHub\s*\(abre em uma nova aba\)$/});
+    await expect(githubLink).toHaveAttribute('target', '_blank');
     await expect(page.locator('footer').getByRole('link', {name: /CC BY-NC 4\.0/})).toHaveAttribute(
       'href',
       'https://creativecommons.org/licenses/by-nc/4.0/deed.pt-br',
