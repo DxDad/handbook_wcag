@@ -94,6 +94,15 @@ html {
   box-shadow: none;
 }
 
+.footer a[rel='license'] {
+  color: var(--ifm-footer-link-color);
+  text-decoration: underline;
+}
+
+.footer a[rel='license']:focus-visible {
+  outline-color: currentColor !important;
+}
+
 .markdown {
   max-width: 75ch;
 }

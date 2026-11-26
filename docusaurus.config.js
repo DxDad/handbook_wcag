@@ -1,6 +1,15 @@
 // @ts-check
 import {themes as prismThemes} from 'prism-react-renderer';
 
+const prismLightTheme = {
+  ...prismThemes.github,
+  styles: [
+    ...prismThemes.github.styles,
+    {types: ['property'], style: {color: '#096b69'}},
+    {types: ['string'], style: {color: '#a31252'}},
+  ],
+};
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Handbook A11Y',
@@ -92,10 +101,10 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Handbook A11Y. Built with Docusaurus.`,
+        copyright: `© ${new Date().getFullYear()} Handbook A11Y. Conteúdo sob a licença <a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/deed.pt-br">Creative Commons Atribuição-NãoComercial 4.0 Internacional (CC BY-NC 4.0)</a>.`,
       },
       prism: {
-        theme: prismThemes.github,
+        theme: prismLightTheme,
         darkTheme: prismThemes.dracula,
       },
     }),
