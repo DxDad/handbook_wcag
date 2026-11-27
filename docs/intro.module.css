@@ -1,0 +1,82 @@
+.hero,
+.contribute {
+  background: var(--hb-cat-bg);
+  border: 1px solid var(--hb-border);
+  border-inline-start: 4px solid var(--hb-cat);
+  border-radius: 1rem;
+  padding: clamp(1rem, 3vw, 2rem);
+}
+
+.heroLead {
+  color: var(--hb-cat);
+  font-family: var(--ifm-heading-font-family);
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.heroLink {
+  text-decoration: underline;
+  font-weight: 700;
+}
+
+.steps,
+.profiles {
+  display: grid;
+  gap: 1rem;
+}
+
+.steps {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+  list-style-position: inside;
+  padding: 0;
+}
+
+.profiles {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+}
+
+.steps > li,
+.profiles > article {
+  margin: 0;
+  background: var(--hb-surface);
+  border: 1px solid var(--hb-border);
+  border-radius: 0.85rem;
+  padding: 1rem;
+  overflow-wrap: anywhere;
+}
+
+.steps > li::marker {
+  color: var(--hb-cat);
+  font-weight: 700;
+}
+
+.steps p {
+  margin: 0.45rem 0 0;
+}
+
+.profile h3 {
+  margin: 0 0 0.35rem;
+}
+
+.role {
+  color: var(--hb-cat);
+  font-weight: 600;
+}
+
+.profile blockquote {
+  color: inherit;
+  background: var(--hb-bg);
+  border-inline-start-color: var(--hb-cat);
+  border-radius: 0.35rem;
+  padding: 0.75rem;
+}
+
+.profile p:last-child,
+.contribute p:last-child {
+  margin-bottom: 0;
+}
+
+.contribute {
+  margin-top: 1.5rem;
+}

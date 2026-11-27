@@ -1,32 +1,55 @@
 ---
 sidebar_position: 1
 title: Sobre o Handbook A11Y
+description: Conheça o propósito do Handbook A11Y, como usar o catálogo de sintomas e quem idealizou o projeto.
 ---
+
+import Link from '@docusaurus/Link';
+import styles from './intro.module.css';
 
 # Sobre o Handbook A11Y
 
-O Handbook A11Y ajuda equipes de produto a investigar e corrigir problemas de acessibilidade na web. Se você encontrou um problema durante um teste ou uma revisão, busque pelo sintoma para descobrir o que pode estar causando a falha, como corrigi-la e como testar a correção.
+<div className={styles.hero}>
+  <p className={styles.heroLead}>A acessibilidade precisa sair da norma e chegar à prática.</p>
+  <p>O Handbook A11Y ajuda quem cria produtos digitais a investigar barreiras, encontrar uma correção e verificar se ela funciona para quem usa o produto.</p>
+  <Link to="/" className={styles.heroLink}>Explorar o catálogo de sintomas</Link>
+</div>
+
+## Manifesto
+
+> Identifiquei uma barreira. E agora, como resolvo?
+
+O Handbook nasceu para responder a essa pergunta. Reúne experiências de produto, design, desenvolvimento, arquitetura, qualidade e gestão para aproximar as diretrizes de acessibilidade do trabalho cotidiano.
+
+Comece pelo que você observou. Talvez o teclado não chegue a um controle, ou um leitor de tela anuncie um botão sem informar sua função. O guia relaciona o sintoma a causas prováveis, referências técnicas, sugestões de correção e formas de testar o resultado. As normas continuam sendo a referência para avaliar a conformidade.
 
 ## Para quem é
 
-- **Desenvolvimento** usa o guia para investigar falhas e aplicar correções.
-- **Qualidade (QA)** usa os passos para reproduzir problemas e verificar as correções.
-- **Design** usa os exemplos para entender como as decisões de interface afetam o uso do produto.
+**Produto e design** podem usar o guia para entender o impacto das barreiras e decidir o que priorizar. **Desenvolvimento e arquitetura** encontram caminhos para implementar as correções. **Qualidade (QA)** encontra orientações para reproduzir o problema e validar o resultado.
+
+## Como o Handbook ajuda
+
+<ol className={styles.steps}>
+  <li><strong>Identificar</strong><p>Descreva a barreira observada durante o uso, o teste ou o desenvolvimento.</p></li>
+  <li><strong>Compreender</strong><p>Compare o comportamento com as causas prováveis e consulte os critérios relacionados.</p></li>
+  <li><strong>Corrigir</strong><p>Use a solução mínima como ponto de partida e adapte os passos à sua interface.</p></li>
+  <li><strong>Validar</strong><p>Repita o teste e confira se a barreira deixou de afetar quem usa o produto.</p></li>
+</ol>
 
 ## Como o conteúdo é organizado
 
 O catálogo tem dois filtros que você pode usar juntos ou separadamente.
 
-| Filtro | O que indica | Exemplos |
-|--------|---------|---------|
-| **Categoria** | O tipo de problema | Teclado e foco, leitor de tela, formulário |
-| **Componente** | O elemento da interface em que o problema aparece | Botão, modal, imagem |
+- **Categoria** indica o tipo de problema, como teclado e foco, leitor de tela ou formulário.
+- **Componente** indica o elemento da interface em que o problema aparece, como botão, modal ou imagem.
 
 Por exemplo, selecione a categoria **Teclado e foco** e o componente **Modal** para encontrar problemas de navegação pelo teclado em janelas modais. Um mesmo sintoma pode aparecer em mais de um componente.
 
 ## O que cada card contém
 
 O card reúne o sintoma, as causas mais comuns, os passos de correção e as orientações de teste. Quando disponíveis, você também encontra exemplos de código e critérios das Diretrizes de Acessibilidade para Conteúdo Web (WCAG). Veja [como ler um card](./como-usar.mdx).
+
+Cada sintoma tem uma página própria. Use **Copiar URL** no fim do card aberto ou da página individual para compartilhar o endereço.
 
 ## Como os dados são armazenados {/* #sobre-o-schema-de-dados */}
 
@@ -50,11 +73,41 @@ Como os dados ficam em um arquivo separado da interface, podem ser reaproveitado
 
 ## Créditos e contribuições
 
-O Handbook A11Y foi idealizado e criado por quatro profissionais que reuniram experiências complementares para definir a estrutura e escrever o conteúdo do guia.
+Quatro profissionais reuniram experiências complementares para idealizar o Handbook, definir a estrutura e escrever o conteúdo.
 
-- **Bruno Welber Pereira** atua em arquitetura e governança de acessibilidade digital. Traduz diretrizes e normas de acessibilidade em orientações práticas para equipes de produto, design e engenharia.
-- **Danilo Souza** atua em acessibilidade digital e comunicação inclusiva. Combina avaliação, formação de equipes e melhoria de processos para tornar serviços e conteúdos digitais mais inclusivos.
-- **Mikaelle Macêdo** atua em gestão de produtos digitais, com experiência em qualidade e acessibilidade. Ajuda equipes a incorporar a acessibilidade às decisões de produto.
-- **Tamara Padilha** atua em qualidade de software e testes de acessibilidade digital. Usa tecnologias assistivas no dia a dia e orienta equipes na correção de barreiras.
+<div className={styles.profiles}>
+  <article className={styles.profile} aria-labelledby="bruno-welber-pereira">
+    <h3 id="bruno-welber-pereira">Bruno Welber Pereira</h3>
+    <p className={styles.role}>Desenvolvimento e arquitetura de acessibilidade</p>
+    <p>Começou no desenvolvimento web e atua com arquitetura, governança e formação em acessibilidade digital. No Handbook, ajuda a traduzir referências como WCAG e ABNT em decisões de arquitetura e soluções de código que as equipes possam aplicar e manter.</p>
+    <blockquote>“Acessibilidade tecnicamente bem construída não é remendo. É arquitetura de produto.”</blockquote>
+    <p><a href="https://www.linkedin.com/in/brunowelber">Bruno Welber Pereira no LinkedIn</a></p>
+  </article>
+  <article className={styles.profile} aria-labelledby="danilo-souza">
+    <h3 id="danilo-souza">Danilo Souza</h3>
+    <p className={styles.role}>UX, gestão e acessibilidade digital</p>
+    <p>Atua com acessibilidade digital e comunicação inclusiva. Sua trajetória reúne avaliação de serviços e conteúdos, formação de equipes, tecnologias assistivas e políticas públicas. No Handbook, traz a perspectiva da experiência de uso e da gestão da acessibilidade.</p>
+    <blockquote>“Acessibilidade é técnica, experiência e gestão. O impacto acontece quando essas dimensões caminham juntas.”</blockquote>
+    <p><a href="https://www.linkedin.com/in/danilo-s-souza">Danilo Souza no LinkedIn</a></p>
+  </article>
+  <article className={styles.profile} aria-labelledby="mikaelle-macedo">
+    <h3 id="mikaelle-macedo">Mikaelle Macêdo</h3>
+    <p className={styles.role}>Produto, estratégia e acessibilidade digital</p>
+    <p>Começou em qualidade e acessibilidade digital e passou a atuar na gestão de produtos e soluções. No Handbook, ajuda a transformar conhecimento técnico em orientações para priorizar demandas e incorporar a acessibilidade às decisões de produto.</p>
+    <blockquote>“Acessibilidade não deve entrar no final para corrigir um produto. Ela deve participar das decisões que constroem esse produto.”</blockquote>
+    <p><a href="https://www.linkedin.com/in/mikaelle-mac%C3%AAdo-651534137">Mikaelle Macêdo no LinkedIn</a></p>
+  </article>
+  <article className={styles.profile} aria-labelledby="tamara-padilha">
+    <h3 id="tamara-padilha">Tamara Padilha</h3>
+    <p className={styles.role}>Qualidade de software e testes de acessibilidade</p>
+    <p>Trabalha com testes manuais e automatizados, formação e mentoria. Usa tecnologias assistivas no dia a dia. No Handbook, traz o olhar de QA para reproduzir problemas, entender o impacto das barreiras e verificar se as correções funcionam.</p>
+    <blockquote>“Corrigir não é apenas mudar o código. É validar se, para quem utiliza o produto, a barreira realmente deixou de existir.”</blockquote>
+    <p><a href="https://www.linkedin.com/in/tamara-padilha-70a209153">Tamara Padilha no LinkedIn</a></p>
+  </article>
+</div>
 
-O projeto está aberto a contribuições. Você pode sugerir novos sintomas, indicar correções ou propor melhorias no [repositório do Handbook A11Y no GitHub](https://github.com/DxDad/handbook_wcag).
+<div className={styles.contribute}>
+  <h3>Contribua com o Handbook</h3>
+  <p>O projeto cresce com quem usa o catálogo. Você pode sugerir um novo sintoma, indicar uma correção ou propor uma melhoria.</p>
+  <p><a href="https://github.com/DxDad/handbook_wcag">Contribuir no GitHub</a></p>
+</div>
