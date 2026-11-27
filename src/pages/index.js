@@ -1,34 +1,8 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import Layout from '@theme/Layout';
 import DATA from '@site/src/data/data.json';
+import {CAT, COMP, SymptomDetails, SymptomMetadata} from '@site/src/components/SymptomDetails';
 import styles from './index.module.css';
-
-const CAT = {
-  teclado: 'Teclado e foco',
-  'leitor-de-tela': 'Leitor de tela',
-  formulario: 'Formulário',
-  visual: 'Visual e contraste',
-  movimento: 'Conteúdo em movimento',
-};
-
-const COMP = {
-  botao: 'Botão',
-  link: 'Link',
-  formulario: 'Formulário',
-  modal: 'Modal',
-  imagem: 'Imagem',
-  tabela: 'Tabela',
-  menu: 'Menu',
-  carrossel: 'Carrossel',
-};
-
-const ROLE = {dev: 'Dev', qa: 'QA', ux: 'UX', conteudo: 'Conteúdo'};
-
-const IMP_LABEL = {
-  alto: 'Impacto alto',
-  medio: 'Impacto médio',
-  baixo: 'Impacto baixo',
-};
 
 // Só oferece nos selects as categorias/componentes que existem de fato em
 // data.json — evita opções "fantasma" que sempre retornam zero resultados.
@@ -68,29 +42,7 @@ function Card({item, open, onToggle}) {
           onClick={() => onToggle(item.id)}>
           <span className={styles.cardLeft}>
             <span className={styles.sintoma} id={sId}>{item.sintoma}</span>
-            <span className={styles.pills} id={mId}>
-              <span className={styles.pill + ' ' + styles.pillCat}>
-                {CAT[item.categoria] || item.categoria}
-              </span>
-              {item.componentes.map((c) => (
-                <span key={c} className={styles.pill + ' ' + styles.pillComp}>
-                  {COMP[c] || c}
-                </span>
-              ))}
-              <span className={styles.pill + ' ' + styles['imp-' + item.impacto]}>
-                {IMP_LABEL[item.impacto] || item.impacto}
-              </span>
-              {(item.responsaveis || []).map((r) => (
-                <span key={r} className={styles.pill + ' ' + styles.pillRole}>
-                  {ROLE[r] || r}
-                </span>
-              ))}
-              {(item.wcag || []).map((w) => (
-                <span key={w} className={styles.pill + ' ' + styles.pillWcag}>
-                  {'WCAG ' + w}
-                </span>
-              ))}
-            </span>
+            <SymptomMetadata item={item} id={mId} />
           </span>
           <span className={styles.chev} aria-hidden="true">
             {open ? '▴' : '▾'}
@@ -98,35 +50,7 @@ function Card({item, open, onToggle}) {
         </button>
       </h3>
       <div id={bId} hidden={!open} className={styles.body}>
-        {item.descricao_curta && (
-          <p className={styles.bodyIntro}>{item.descricao_curta}</p>
-        )}
-        <div className={styles.boxes}>
-          <div className={styles.box}>
-            <h4 className={styles.boxH}>Causa provável</h4>
-            <ul className={styles.boxList}>
-              {item.causas_provaveis.map((c, i) => <li key={i}>{c}</li>)}
-            </ul>
-          </div>
-          <div className={styles.box}>
-            <h4 className={styles.boxH}>Solução mínima</h4>
-            <ol className={styles.boxList}>
-              {item.solucao_minima.map((s, i) => <li key={i}>{s}</li>)}
-            </ol>
-          </div>
-          <div className={styles.box}>
-            <h4 className={styles.boxH}>Como validar</h4>
-            <ul className={styles.boxList}>
-              {item.validacao.map((v, i) => <li key={i}>{v}</li>)}
-            </ul>
-          </div>
-        </div>
-        {item.exemplo_codigo && (
-          <pre className={styles.code}><code>{item.exemplo_codigo}</code></pre>
-        )}
-        {!(item.wcag && item.wcag.length) && (
-          <p className={styles.wcagPend}>Critério WCAG: a definir.</p>
-        )}
+        <SymptomDetails item={item} headingLevel="h4" />
       </div>
     </article>
   );

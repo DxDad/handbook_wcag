@@ -30,6 +30,8 @@ const config = {
 
   onBrokenLinks: 'throw',
 
+  plugins: ['./plugins/handbook-symptoms/index.js'],
+
   i18n: {
     defaultLocale: 'pt-BR',
     locales: ['pt-BR'],

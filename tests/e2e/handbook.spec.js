@@ -6,6 +6,7 @@ const pages = [
   {path: 'docs/intro', heading: 'Sobre o Handbook A11Y'},
   {path: 'docs/como-usar', heading: 'Como ler um card'},
   {path: 'markdown-page', heading: 'Exemplo de página em Markdown'},
+  {path: 'sintomas/tab-nao-acessa', heading: 'Não consigo chegar ao controle usando o teclado'},
 ];
 
 for (const currentPage of pages) {
@@ -42,11 +43,53 @@ test('combina filtros, limpa a busca e opera cards pelo teclado', async ({page})
   await page.getByLabel('Componente', {exact: true}).selectOption('modal');
   await expect(page.locator('#sintomas article')).not.toHaveCount(0);
 
-  const firstCardButton = page.locator('#sintomas article').first().getByRole('button');
+  const firstCardButton = page.locator('#sintomas article').first().getByRole('heading', {level: 3}).getByRole('button');
   await firstCardButton.focus();
   await expect(firstCardButton).toHaveAttribute('aria-expanded', 'false');
   await firstCardButton.press('Enter');
   await expect(firstCardButton).toHaveAttribute('aria-expanded', 'true');
   await firstCardButton.press('Space');
   await expect(firstCardButton).toHaveAttribute('aria-expanded', 'false');
+});
+
+test('copia a URL no card aberto e na página individual do sintoma', async ({page, context}) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.goto('./');
+  const card = page.locator('#sintomas article').first();
+  const symptom = 'Não consigo chegar ao controle usando o teclado';
+  const url = 'https://dxdad.github.io/handbook_wcag/sintomas/tab-nao-acessa';
+  const copyName = `Copiar URL: ${symptom}`;
+
+  await expect(card.getByRole('button', {name: copyName})).toHaveCount(0);
+  await card.getByRole('button', {name: symptom, exact: true}).press('Enter');
+  await expect(card.getByText(url, {exact: true})).toBeVisible();
+  const cardCopy = card.getByRole('button', {name: copyName});
+  await cardCopy.press('Enter');
+  await expect(card.getByRole('status')).toHaveText('URL copiada.');
+  await expect(cardCopy).toBeFocused();
+  await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(url);
+
+  await page.goto('sintomas/tab-nao-acessa');
+  await expect(page.getByRole('heading', {name: symptom, level: 1, exact: true})).toBeVisible();
+  await expect(page.getByRole('heading', {name: 'Como validar', level: 2})).toBeVisible();
+  await expect(page.getByText(url, {exact: true})).toBeVisible();
+  await page.evaluate(() => navigator.clipboard.writeText(''));
+  await page.getByRole('button', {name: copyName}).press('Space');
+  await expect(page.getByRole('status')).toHaveText('URL copiada.');
+  await expect.poll(() => page.evaluate(() => navigator.clipboard.readText())).toBe(url);
+
+  await page.evaluate(() => {
+    navigator.clipboard.writeText = () => Promise.reject(new Error('Cópia indisponível'));
+  });
+  const pageCopy = page.getByRole('button', {name: copyName});
+  await pageCopy.press('Enter');
+  await expect(page.getByRole('status')).toHaveText(/URL foi selecionada para cópia manual/);
+  await expect(pageCopy).toBeFocused();
+  await expect.poll(() => page.evaluate(() => window.getSelection().toString())).toBe(url);
+
+  await page.getByRole('link', {name: 'Voltar ao catálogo de sintomas'}).click();
+  await expect(page.getByRole('heading', {
+    name: 'Encontre soluções para problemas de acessibilidade',
+    level: 1,
+  })).toBeVisible();
 });
